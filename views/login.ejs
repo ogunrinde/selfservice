@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="wrapper">
+        <div>
+          <div class="images"><img src="images/logo.jpg"></div>
+            <% if (message.length > 0) { %>
+              <div class="bg-danger" style="color: #fff;text-align: center;padding: 7px;"><%= message %></div>
+            <% } %>
+          <form action = '/login' method="post">
+             <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name = "email" placeholder="name@example.com">
+                <small class="text-danger" id = "msgemail"></small>
+             </div>
+             <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name = "password" placeholder="">
+                <small class="text-danger" id = "errpassword"></small>
+             </div>
+             <div class="form-group">
+                 <input type="submit" class="btn btn-primary" value="Log In">
+             </div>
+          </form>
+          <hr>
+          <div>
+              Do you have an Account?
+              <a href="/register" class="btn btn-danger">Register</a>
+          </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/logic.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+  </body>
+</html>

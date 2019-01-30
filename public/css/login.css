@@ -1,0 +1,25 @@
+ * {
+ 	box-sizing: border-box;
+ }
+ body {
+ 	background-color: #245b97;
+ }
+ .submitbtn{
+ 	background-color: #245b97;
+ }
+.wrapper {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 8%;
+	padding: 20px;
+	background-color:#fff;
+}
+.images{
+	width: 100%;
+	text-align: center;
+}
+img {
+	margin-left: auto;
+	margin-right: auto;
+}
