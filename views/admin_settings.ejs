@@ -137,10 +137,9 @@
 
         </nav>
         <!-- End of Topbar -->
-
         <div class="container-fluid">
             <% if (message.length > 0) { %>
-                <div class="alert bg-success" style="color: #fff;" role="alert">
+                <div class="alert" style="background-color:#fff; color:green" role="alert">
                         <%= message %>
                 </div>
             <% } %>
@@ -164,7 +163,7 @@
                        <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="company name">Company Name</label>
-                                    <input type="text" class="form-control" id="company_name" value = "<%= company_data.company_name !== null ? company_data.company_name : ''%>" name = "company_name" placeholder="">
+                                    <input type="text" class="form-control" id="company_name" value = "<%= user.company_name%>" name = "company_name" placeholder="">
                                     <small class="text-danger" id = "errpassword"></small>
                                 </div>
                                 <div class="form-group">
@@ -185,18 +184,48 @@
                             <ul class="list-group">
                                 
                                     <% for (r = 0; r < company_data.department.length; r++) { %>
+                                      <% if (company_data.department[r] !== '') { %>
                                         <li class="list-group-item" style = "text-transform: capitalize"><%=company_data.department[r]%>
                                           <span class="remove">x</span>
                                         </li>
-                                    <% } %>    
+
+                                    <% } } %>    
                                     <!--li class="list-group-item" style = "text-transform: capitalize">Fleet
                                         <span class="remove">x</span>
                                     </li-->
                             </ul>
                         </div>
                    </div>
-                   <div>Appraisal Flow</div><hr>
-                   <div class="wrap_timeline">
+                   <div>Administrator Data</div><hr>
+                   <div class="row">
+                    <div class="col-lg-4">
+                      <% if (user.profile_image === 'user_profile.png')  {%>
+                      <div style="text-align: center;" id = "uploadprofile"><img class="uploadimg" src="/images/user_profile.png" alt=""></div>
+                      <div style="text-align: center;">Upload Admin Image</div>
+                      <input type="file" name="profile" id="profile" style="display: none;">
+                      <% } else { %>
+                       <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=user.profile_image%>" alt=""></div>
+                       <% } %>
+                  </div>
+                  <div class="col-lg-4">
+                           <div class="form-group">
+                               <label for="company name">Name</label>
+                               <input type="text" class="form-control" id="name" value = "<%= user.name%>" name = "name" placeholder="">
+                               <small class="text-danger" id = "errpassword"></small>
+                           </div>
+                           <div class="form-group">
+                            <label for="name">Email</label>
+                            <input type="text" class="form-control" id="ad_email" value = "<%= user.email%>" name = "email" placeholder="">
+                            <small class="text-danger" id = "errpassword"></small>
+                        </div>
+                           <div class="form-group">
+                                   <label for="company name">Department</label>
+                                   <input type="text" class="form-control" id="company_dept" name = "admin_dept" placeholder="e.g Fleet Management Unit">
+                                   <small class="text-danger" id = "errpassword"></small>
+                           </div>
+                  </div>
+              </div>
+                   <!--div class="wrap_timeline">
                         <ul class="timeline" id="timeline">
                         <li class="li complete next0">
                             <div class="timestamp">
@@ -253,7 +282,7 @@
                             </div>
                         </li>
                         </ul>      
-                   </div>
+                   </div-->
                    <div style="text-align: center;">
                        <input type="submit" value="Update" class="btn btn-primary">
                    </div>

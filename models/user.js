@@ -10,6 +10,7 @@ var userSchema = new mongoose.Schema({
     admin_id: { type : String},
     category : { type : String},
     company_name: { type : String},
+    profile_image: { type : String},
     first_time_loggin: { type : String}
 });
 userSchema.methods.hashpassword = function(password){

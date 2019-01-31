@@ -35,7 +35,9 @@ passport.use('local.signup', new localStrategy({
         newUser.department = '';
         newUser.name = '';
         newUser.employee_ID = '';
+        newUser.profile_image = 'user_profile.png';
         newUser.company_name = req.body.company_name;
+        newUser.admin_id = '';
         newUser.save(function(err){
             if(err) {
                 return done(err);

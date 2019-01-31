@@ -137,34 +137,42 @@
 
         </nav>
         <!-- End of Topbar -->
-
+        
         <div class="container-fluid">
+            <div>
+                <% if (message.length > 0) { %>
+                  <div class="alert" style="background-color:#fff; color:green" role="alert">
+                          <%= message %>
+                  </div>
+              <% } %>
+            </div>
           <div class="card border-0 shadow mb-4">
             <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">Company Details</h6>
             </div>
             <div class="card-body">  
-              <div style="">
-                <form action="/advanced_settings" method = "post" enctype="multipart/form-data">
+              <div style ="">
+                <form action="/staff_settings" method = "post" enctype="multipart/form-data">
                    <div class="row">
                        <div class="col-lg-4">
-                           <%= company_data.logo %>
-                            <% if (company_data.logo === null)  {%>
-                                <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/upload.png" alt=""></div>
-                                <div style="text-align: center;">Upload Company Logo</div>
+                            <% if (user.profile_image === 'user_profile.png')  {%>
+                                <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/user_profile.png" alt=""></div>
+                                <div style="text-align: center;">Upload Profile Image</div>
                                 <input type="file" name="file" id="file" style="display: none;">
                                 <% } else { %>
-                                 <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=company_data.logo%>" alt=""></div>
+                                  <input type="file" name="file" id="file" style="display: none;">
+                                 <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=user.profile_image%>" alt=""></div>
                                  <% } %>
                        </div>
                        <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="admin id">Administer ID</label>
-                                    <input type="text" class="form-control" id="user_admin_id" value="" name = "user_admin_id" placeholder="">
+                                    <label for="admin id">Administer Email</label>
+                                    <input type="text" class="form-control" id="" value="<%=data.admin_id%>" name = "user_admin_id" placeholder="" style="display: none;">
+                                    <input type="text" class="form-control" id="" value="<%=data.admin_email%>" name = "user_admin_email" placeholder="">
                                 </div>
                                 <div class="form-group">
                                         <label for="admin id">Company Name</label>
-                                        <input type="text" class="form-control" id="user_company_name" value="<%=user.company_name%>" name = "user_company_name" placeholder="">
+                                        <input type="text" class="form-control" id="user_company_name" value="<%=user.company_name%>" name = "company_name" placeholder="">
                                 </div>
                                 <div class="form-group">
                                         <label for="name">Name</label>
@@ -172,8 +180,23 @@
                                         <small class="text-danger" id = "errpassword"></small>
                                 </div>
                                 <div class="form-group">
+                                    <label for="name">Email</label>
+                                    <input type="text" class="form-control" id="user_email" value="<%=user.email%>" name = "user_email" placeholder="">
+                                    <small class="text-danger" id = "errpassword"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Employee ID</label>
+                                    <input type="text" class="form-control" id="user_employeID" value="<%=user.employee_ID%>" name = "user_employee_ID" placeholder="">
+                                    <small class="text-danger" id = "errpassword"></small>
+                                </div>
+                                <div class="form-group">
                                     <label for="company dept">Department</label>
-                                     <input type="text" class="form-control" id="user_department" value="<%=user.department%>" name = "user_department" placeholder="">  
+                                     <select name="user_department" class="form-control" id="">
+                                        <option value="">select your department</option>
+                                       <% for (let i = 0; i < data.department.length; i++) { %>
+                                       <option value="<%=data.department[i]%>"><%=data.department[i]%></option>
+                                       <% } %>
+                                     </select>
                                 </div>
                                 <div class="form-group">
                                         <label for="company dept">Role</label>

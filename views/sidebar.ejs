@@ -45,12 +45,27 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Templates</h6>
+          <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/create_appraisal">Create Templates</a>
-          <a class="collapse-item" href="/appraisal">View Appraisal</a>
+          <% } %>
+          <% if (user.category == 'admin') { %>
+            <a class="collapse-item" href="/appraisal">View Appraisal</a>
+          <% } %> 
+          <% if (user.category == 'staff') { %>
+            <a class="collapse-item" href="/staff_appraisal">View Appraisal</a>
+          <% } %>  
+          <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/assign">Assign</a>
+          <% } %>
+          <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/suspend">Drop or Suspend</a>
+          <% } %>
+          <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/reports">Reports and Analysis</a>
+          <% } %>
+          <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/query">Querying System</a>
+          <% } %>
         </div>
       </div>
     </li>

@@ -14,13 +14,11 @@
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-  <link rel="stylesheet" type="text/css" href="css/create_appraisal.css">
+   <link rel="stylesheet" type="text/css" href="css/appraisal.css">
 
 </head>
 
@@ -74,35 +72,7 @@
                 <span class="badge badge-danger badge-counter">0</span>
               </a>
             </li>
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="settingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-cog"></i>
-                </a>
-                <!-- Dropdown - User Information -->
-                <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="settingDropdown">
-                  <a class="dropdown-item" href="#">
-                      <label class="btnwrapper">Admin
-                         <% if (user.category == 'admin') { %>
-                          <input type="radio" name="radio" checked = true value = 'admin'>  
-                         <% }else { %> 
-                          <input type="radio" name="radio" value = 'admin'>  
-                          <% }%> 
-                          <span class="checkmark"></span>
-                      </label>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                      <label class="btnwrapper"><span style="margin-top: 10px;">Staff</span>
-                        <% if (user.category == 'staff') { %>
-                          <input type="radio" name="radio" checked = true value = 'admin'>  
-                         <% }else { %> 
-                          <input type="radio" name="radio" value = 'admin'>  
-                          <% }%>
-                          <span class="checkmark"></span>
-                      </label>
-                  </a>
-              </li>
-  
+
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -137,6 +107,11 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
+            <% if (appraisal.length === 0 ) { %>
+            <div class="alert alert-light" role="alert">
+                No Appraisal Uploaded yet...
+            </div>
+            <% } %>
           <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">
@@ -188,67 +163,35 @@
             </div>
           </div-->
           <!-- Area Chart -->
-          <div class="card border-0 shadow mb-4">
-            <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary head_title">Employee Performance Management System</h6>
-            </div>
-            <div class="card-body">
-              <div>Appraisal will be dispatched to staff immediately after upoad.</div><hr>
-                <!--div class="toggle">
-                    <div style="float: right;"><span style="margin-right: 0px;">Share appraisal with Staff</span> <label class="switch">
-                        <input type="checkbox" name = 'share' value = 'share'/>
-                        <span class="slider"></span>
-                      </label></div>
-                </div-->  
-            <div>
-               <div id="slides">
-                   <div class="eachslide">
-                      <% if (message.length > 0) { %>
-                        <div class="bg-success" style="color: #fff;text-align: center;padding: 7px;"><%= message %></div>
-                      <% } %>
-                        <form action="/uploadFile" method="POST" enctype="multipart/form-data">
-                           <!--div class="form-group">
-                              <label for = "staff">SELECT CLIENT</label>
-                              <select name = "select" class="form-control">
-                                <option></option>
-                              </select>
-                           </div-->
-                           <!--div class="form-group">
-                              <label for = "staff">JOB DESCRIPTION</label>
-                              <select name = "select" class="form-control">
-                                <option></option>
-                              </select>
-                           </div-->
-                            <div class="form-group">
-                              <label for = "staff">APPRAISAL PERIOD</label>
-                              <select name = "period" class="form-control">
-                                <option value="JAN-DEC">JAN-DEC</option>
-                              </select>
-                           </div>
-                           <div class="form-group">
-                              <label for = "staff">YEAR</label>
-                              <select name = "year" class="form-control">
-                                <option value = "2019">2019</option>
-                                <option value = "2020">2020</option>
-                              </select>
-                           </div>
-                           <div class="form-group">
-                             <input type="file" name="file" style="display: none;" id = 'file'>
-                             <img id = 'upload' src="images/uploadicon.png" alt="" style="width: 50px;height: 50px;"><span style="margin-right: 10px;"> Upload doc in Excel</span>
-                             <!--button type="button" id = 'upload' class="btn btn-danger"><span><i class="fa fa-upload" aria-hidden="true"></i></span> Upload Appraisal in Excel (csv)</button-->
-                         </div>
-                           <div class="form-group" style="text-align: center;">
-                              <input type="submit" class="btn btn-primary" value="Create Appraisal">
-                           </div>
-                        </form>
-                    </div>          
-                </div>
-            </div>
-              <div class="chart-area">
-                <canvas id="myAreaChart"></canvas>
-              </div>
-            </div>
+          <div class="listwrapper">
+          <ul class="list-group">
+              <% for(var i=0; i < appraisal.length; i++) { %>
+              <a class="getdata" id = "getdata<%=i%>" year = "<%= appraisal[i].year %>">  
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                  
+                  <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= appraisal[i].period %> (<%= appraisal[i].year %>)</span>
+                
+                <span class="badge badge-primary badge-pill"><i class="fa fa-eye" style="margin-right: 7px;"></i> 14</span>
+              </li></a>
+              <% } %>
+            </ul>
           </div>
+          <form method="post" action="/view_appraisal" style="display: none" >
+             <input type="text" name = 'year' id = 'addyear'/>
+             <input type="submit" value="submit" id = 'submityear'>
+          </form> 
+          <!--div class="contain">
+                <div class="viewcard">
+                  <div class="back">
+                    <h1>Helen Parker<span>design <i>&</i> photography</span></h1>
+                    <ul>
+                      <li>+1-111-111-11-11</li>
+                      <li>my-email@email.com</li>
+                      <li>my-site.com</li>
+                      </ul>
+                  </div>
+                  </div>
+           </div-->
 
 
 
@@ -312,7 +255,6 @@
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
