@@ -13,16 +13,12 @@
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
-
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-   <link rel="stylesheet" type="text/css" href="css/query.css">
+  <link rel="stylesheet" type="text/css" href="css/leave_request.css">
 
 </head>
 
@@ -30,8 +26,8 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
-
     <% include sidebar.ejs %>
+
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -63,6 +59,13 @@
                 <!-- Counter - Alerts -->
                 <span class="badge badge-danger badge-counter">0</span>
               </a>
+              <!-- Dropdown - Alerts -->
+              <!--div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div-->
             </li>
 
             <!-- Nav Item - Messages -->
@@ -72,7 +75,18 @@
                 <!-- Counter - Messages -->
                 <span class="badge badge-danger badge-counter">0</span>
               </a>
+              <!-- Dropdown - Messages -->
+              <!--div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div-->
             </li>
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link" href="/staff_settings" id="settingDropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-cog"></i>
+              </a>
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
@@ -108,62 +122,88 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <!-- Area Chart -->
-          <div class="card border-0 shadow mb-4" style="padding: 1%;">
-            <div style="margin-top: 20px;">
-              <div class="row">
-                <% for (let i = 0; i < all_staff.length; i++) { %>
-                <div class="col-lg-3 col-sm-6">
-                        <div class="card hovercard">
-                            <div class="cardheader">
-            
-                            </div>
-                            <div class="avatar">
-                                <img alt="" src="images/<%=all_staff[i].profile_image%>">
-                            </div>
-                            <div class="info">
-                                <div class="title">
-                                    <a target="_blank" href=""><%=all_staff[i].name%></a>
-                                </div>
-                                <div class="desc"><%=all_staff[i].role%></div>
-                                <div class="desc"><%=all_staff[i].department%></div>
-                            </div>
-                            <div class="bottom">
-                                <a class="btn btn-primary btn-twitter btn-sm" href="/get_staff_appraisals/<%=all_staff[i]._id%>">
-                                    <i class="fa-file fa"></i>
-                                </a>
-                                <a class="btn btn-danger btn-sm" rel="publisher"
-                                    href="/get_staff_leave/<%=all_staff[i]._id%>">
-                                    <i class="fa fa-walking"></i>
-                                </a>
-                                <!--a class="btn btn-primary btn-sm" rel="publisher"
-                                   href="https://plus.google.com/shahnuralam">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                                <a class="btn btn-warning btn-sm" rel="publisher" href="https://plus.google.com/shahnuralam">
-                                    <i class="fa fa-behance"></i>
-                                </a-->
-                            </div>
-                        </div>
-            
+          <div class="alert alert-light" role="alert">
+                <div class="row">
+                    <div class="col-lg-2 text-center">
+                        <h6>Employee ID</h6>
+                        <p><%=user.employee_ID%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6>Company</h6>
+                            <p><%=user.company_name%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6>Leave Applicant</h6>
+                            <p><%=user.name%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6>Branch</h6>
+                            <p>Ecobank</p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6>Role</h6>
+                            <p><%=user.role%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6>E-mail</h6>
+                            <p><%=user.email%></p>
+                    </div>
                 </div>
-                 <% } %>
+          </div>
+          <div class="card border-0 shadow mb-4">
+            <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Apply for Leave</h6>
+            </div>
+            <div class="card-body">
+              <div class="listItem">
+                    <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Leave Type
+                              <span class="badge badge-pill"><%=leave.leave_type%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Start Date
+                              <span class="badge badge-pill"><%=leave.start_date%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    End Date
+                                <span class="badge badge-pill"><%=leave.end_date%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Required Reliever
+                                 <span class="badge badge-pill"><%=leave.require_reliever%></span>
+                             </li>
+                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Reliever Name
+                                 <span class="badge  badge-pill"><%=leave.reliever_name%></span>
+                             </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                   Reliever Email
+                                <span class="badge  badge-pill"><%=leave.reliever_email%></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Reliever Phone
+                                 <span class="badge  badge-pill"><%=leave.reliever_phone%></span>
+                             </li>
+                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Application Date
+                                 <span class="badge  badge-pill"><%=leave.date_created%></span>
+                             </li>
+                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Stage
+                                 <span class="badge  badge-pill"><%=leave.stage%></span>
+                             </li>
+                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Status
+                                 <span class="badge  badge-pill badge-primary"><%=leave.status%></span>
+                             </li>
+                          </ul>
+              </div>  
+              <div class="chart-area">
+                <canvas id="myAreaChart"></canvas>
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </div>
         <!-- /.container-fluid -->
@@ -226,9 +266,7 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
-  <script type="text/javascript" src = ""></script>
-  <script type="text/javascript">
-  </script>
+
 </body>
 
 </html>

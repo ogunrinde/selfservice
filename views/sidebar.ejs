@@ -11,7 +11,13 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
+   <!-- Dashboards Accordion Menu -->
+   <li class="nav-item active">
+      <a class="nav-link" href="/dashboard">
+        <!--i class="fas fa-fw fa-tachometer-alt"></i-->
+        <span>Dashboard</span>
+      </a>
+    </li>
     <!-- Dashboards Accordion Menu -->
     <li class="nav-item active">
       <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -21,7 +27,7 @@
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Employee:</h6>
-          <a class="collapse-item" href="index.html">Management System</a>
+          <a class="collapse-item" href="/employee">Management System</a>
           <a class="collapse-item" href="#">Information System</a>
           <a class="collapse-item" href="#">Account Management System</a>
         </div>
@@ -53,13 +59,19 @@
           <% } %> 
           <% if (user.category == 'staff') { %>
             <a class="collapse-item" href="/staff_appraisal">View Appraisal</a>
+          <% } %> 
+          <% if (user.category == 'staff') { %>
+            <a class="collapse-item" href="/filled_appraisal">Filled Appraisal</a>
           <% } %>  
           <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/assign">Assign</a>
           <% } %>
           <% if (user.category == 'admin') { %>
-          <a class="collapse-item" href="/suspend">Drop or Suspend</a>
+          <a class="collapse-item" href="/drop">Drop or Suspend</a>
           <% } %>
+          <% if (user.category == 'admin') { %>
+            <a class="collapse-item" href="/suspend">Suspend</a>
+            <% } %>
           <% if (user.category == 'admin') { %>
           <a class="collapse-item" href="/reports">Reports and Analysis</a>
           <% } %>
@@ -78,8 +90,18 @@
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Templates</h6>
-            <a class="collapse-item" href="/leave_request">Leave Request</a>
+            <% if (user.category == 'admin') { %>
+            <a class="collapse-item" href="/view_request">View Request</a>
+            <% } %>
+            <% if (user.category == 'staff') { %>
+              <a class="collapse-item" href="/leave_request">Leave Request</a>
+              <% } %>
+            <% if (user.category == 'admin') { %>
             <a class="collapse-item" href="/view_leave">View Leave</a>
+            <% } %>
+            <% if (user.category == 'staff') { %>
+              <a class="collapse-item" href="/staff_leave_request">View Leave</a>
+            <% } %>
           </div>
         </div>
       </li>

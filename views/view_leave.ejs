@@ -124,44 +124,28 @@
             <div class="card-body">  
                 <div class="row" id="ads">
                     <!-- Category Card -->
-                    <div class="col-md-3">
-                        <div class="card rounded">
-                            <div class="card-image">
-                                <span class="card-notify-badge" style="background-color: #4e73df;color: #fff;">Line Manager</span>
-                                <span class="card-notify-year">2018</span>
-                                <div class="text-center" style="padding: 10px;"><img src="images/profile.png" alt="..." class="rounded-circle" style="width: 100px;height: 100px;"></div>
-                            </div>
-                            <div class="card-image-overlay m-auto">
-                                <div style="background-color: #ff4444; color: #fff;padding: 4px;font-size: 13px;border-radius: 2px;font-weight: 800;">Level : Approved</div>
-                            </div>
-                            <div class="card-body text-center">
-                                <div class="ad-title m-auto">
-                                    <h5>15 Days Leave</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                            <div class="card rounded">
+                    <div class="row" id="ads">
+                        <!-- Category Card -->
+                        <% for (let i = 0; i < leave.length; i++) { %>  
+                        <div class="col-md-3">
+                            <div class="card rounded" id = 'card<%=i%>' user_id = "<%=user._id%>">
                                 <div class="card-image">
-                                    <span class="card-notify-badge" style="background-color: #4e73df;color: #fff;">Line Manager</span>
-                                    <span class="card-notify-year">2018</span>
-                                    <div class="text-center" style="padding: 10px;"><img src="images/profile.png" alt="..." class="rounded-circle" style="width: 100px;height: 100px;"></div>
+                                    <span class="card-notify-badge" style="color: #858796;background-color: #fff;">Stage: <%= leave[i].stage%> </span>
+                                    <span class="card-notify-year"><span style="display: block;font-size: 20px;"> <%= date_created[i].day_created %></span><span style="display: block;font-size: 10px;"><%= date_created[i].month_created %> <%= date_created[i].year_created %></span></span>
+                                    <div class="text-center" style="padding: 10px;"><img src="images/doc.png" alt="..." class="rounded-circle" style="width: 100px;height: 100px;"></div>
                                 </div>
                                 <div class="card-image-overlay m-auto">
-                                    <div style="background-color: #ff4444; color: #fff;padding: 4px;font-size: 13px;">Level : Approved</div>
+                                    <div style="background-color: #fff; color: #858796;padding: 4px;font-size: 13px;border-radius: 2px;font-weight: 800;">Level : <%= leave[i].fstage%></div>
                                 </div>
                                 <div class="card-body text-center">
-                                    <div class="ad-title m-auto">
+                                    <div class="ad-title m-auto" style="padding: 4px;">
                                         <h5>15 Days Leave</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                
-                    <div class="col-md-4">
-                    </div>
-                
+                        <% } %>
+                    </div>       
                 </div>
               <div class="chart-area">
                 <canvas id="myAreaChart"></canvas>

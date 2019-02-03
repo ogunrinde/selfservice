@@ -18,6 +18,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/manager.css">
 
 </head>
 
@@ -124,111 +125,118 @@
           <div class="alert alert-light" role="alert">
                 <div class="row">
                     <div class="col-lg-2 text-center">
-                        <h6 class="text-primary"style='font-weight:400;'>Employee ID</h6>
+                        <h6>Employee ID</h6>
                         <p><%=user.employee_ID%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6 class="text-primary"style='font-weight:400;'>Company</h6>
+                            <h6>Company</h6>
                             <p><%=user.company_name%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6 class="text-primary"style='font-weight:400;'>Leave Applicant</h6>
+                            <h6>Leave Applicant</h6>
                             <p><%=user.name%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6 class="text-primary"style='font-weight:400;'>Branch</h6>
+                            <h6>Branch</h6>
                             <p>Ecobank</p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6 class="text-primary"style='font-weight:400;'>Role</h6>
+                            <h6>Role</h6>
                             <p><%=user.role%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6 class="text-primary"style='font-weight:400;'>E-mail</h6>
+                            <h6>E-mail</h6>
                             <p><%=user.email%></p>
                     </div>
                 </div>
           </div>
+          
           <div class="card border-0 shadow mb-4">
             <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">Apply for Leave</h6>
             </div>
             <div class="card-body">
               <div>
-                  <form action="/leave_request" method="post">
-                      <div class="leave_header">Leave Request Period</div><hr/>
-                      <div class="leaveform">
-                            <div class="form-group">
-                               <label for="leave_type">Leave Type</label>
-                               <select class="form-control" id="leave_type" name="leave_type">
-                                    <option value="sick">Sick</option>
-                                    <option value="maternity">Maternity</option>
-                                    <option value="annual">Annual</option>
-                                </select>                            
+              <div class="row">
+                <div class="col-lg-2">
+                    <p class="text-center" style="font-weight: 800">Leave Type</p>
+                    <p class="text-center"><%=leave_data.leave_type%></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">Start Date</p>
+                        <p class="text-center"><%=leave_data.start_date%></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">End Date</p>
+                        <p class="text-center"><%=leave_data.end_date%></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">Applied Date</p>
+                        <p class="text-center"><%=leave_data.date_created%></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">Reliever Required</p>
+                        <p class="text-center"><%=leave_data.require_reliever%></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">Reliever source</p>
+                        <p class="text-center"><%=leave_data.reliever_source%></p>
+                </div>
+              </div> 
+              <div class="row" style="margin-top: 20px;">
+                    <div class="col-lg-2">
+                        <p class="text-center" style="font-weight: 800">Justification</p>
+                        <p class="text-center"><%=leave_data.justification%></p>
+                    </div>
+                    <div class="col-lg-2">
+                            <p class="text-center" style="font-weight: 800"> Reliever E-mail</p>
+                            <p class="text-center"><%=leave_data.reliever_email%></p>
+                    </div>
+                    <div class="col-lg-2">
+                            <p class="text-center" style="font-weight: 800">Reliever Phone</p>
+                            <p class="text-center"><%=leave_data.reliever_phone%></p>
+                    </div>
+                    <div class="col-lg-2">
+                            <p class="text-center" style="font-weight: 800">Reliever </p>
+                            <p class="text-center"><%=leave_data.require_reliever%></p>
+                    </div>
+              </div>   
+              <div style="margin-top: 30px;">Manager's Remark</div><hr>
+              <div class="row" style="width: 60%;margin-left:auto;margin-right: auto;">
+                    <div class="checkerdiv" style ="">
+                            <form method = "post" action = "/update_leave_request">
+                             <label class="btnwrapper"><span class="label">Accept</span>
+                                     <input type="radio" name="category" value="accept">
+                                     <span class="checkmark"></span>
+                             </label>
+                             <label class="btnwrapper"><span class="label">Reject</span>
+                                     <input type="radio" name="category" value="reject">
+                                     <span class="checkmark"></span>
+                             </label>
+                             <label class="btnwrapper"><span class="label">Suspend</span>
+                              <input type="radio" name="category" value="suspend">
+                              <span class="checkmark"></span>
+                            </label>
+                            <label class="btnwrapper" style="display:none"><span class="label">Suspend</span>
+                              <input type="text" name="staff_id" value="<%=user._id%>">
+                              <% if(user.role == 'lManager'){ %>
+                                <input type="text" name="manager" value="lManager">
+                              <% }else { %>
+                                <input type="text" name="manager" value="bManager">
+                              <% } %>
+                              <span class="checkmark"></span>
+                            </label>
+                            <div class="row text-center" style="margin-top: 2%;">
+                              <div class="submit_btn" style="">
+                                <input type="submit" value="Submit Request" class="btn btn-primary"/>    
+                              </div>
                             </div>
-                            <div class="form-group">
-                                <label for="leave_type">Start Date</label>
-                                <input type="date" name="start_date" class="form-control">                          
-                            </div>
-                            <div class="form-group">
-                                    <label for="leave_type">End Date</label>
-                                    <input type="date" name="end_date" class="form-control">                          
-                            </div>
-                            <div class="form-group">
-                                    <label for="justification">Justification</label>
-                                    <textarea name="justification" class="form-control" id="" cols="30"></textarea>                          
-                            </div>
-                      </div>
-                      <div>
-                        <div class="leave_header">Leave Request Approvers</div><hr/>
-                        <div class="leaveform">
-                            <div class="form-group">
-                                    <label for="lManager">Line Manager</label>
-                                    <input type="text" name="lManager" value = "<%=user.lManager%>" class="form-control">                           
-                            </div>
-                            <div class="form-group">
-                                    <label for="bManager">Branch Manager</label>
-                                    <input type="text" name="bManager" value = "<%=user.bManager%>" class="form-control">                                                     
-                            </div>
-                        </div>
-                      </div>
-                      <div>
-                      <div class="leave_header">Reliever Requirement</div><hr/>
-                            <div class="leaveform">
-                                <div class="form-group">
-                                        <label for="reliever_req">Reliever Required</label>
-                                        <select class="form-control" id="reliever" name = 'require_reliever'>
-                                                <option>YES</option>
-                                                <option>NO</option>
-                                        </select>                           
-                                </div>
-                                <div class ="leave_header">if yes</div><hr/>
-                                <div class="form-group">
-                                        <label for="bManager">Reliever Source</label>
-                                        <select class="form-control" name="reliever_source">
-                                                <option value = "ICS">ICS</option>
-                                                <option value="internal">Internally Sourced</option>
-                                        </select>                           
-                                </div>
-                                <div class="form-group">
-                                        <label for="RName">Reliever's Name</label>
-                                        <input type="text" name="reliever" value = "" class="form-control">                                                                             
-                                </div>
-                                <div class="form-group">
-                                        <label for="bManager">Reliever's Email</label>
-                                        <input type="text" name="reliever_email" value = "" class="form-control">                            
-                                </div>
-                                <div class="form-group">
-                                        <label for="bManager">Reliever's Phone</label>
-                                        <input type="text" name="reliever_phone" value = "" class="form-control">                                                      
-                                </div>
-                                <input type="submit" class="btn btn-primary" name="leave_btn" value="Submit" id="">
-                            </div>
-                          </div>
-                          <div>
-                             
-                          </div>
-                  </form>
+                         </form>
+                    </div>
+              </div>
+              <div>
+                  
+              </div>
               </div>  
               <div class="chart-area">
                 <canvas id="myAreaChart"></canvas>

@@ -5,6 +5,7 @@ var companySchema = new mongoose.Schema({
     logo : { type: String},
     admin_id : {type : String},
     department: { type : Array},
+    branch : {type : Array},
     appraisal_flow: { type : Array}
 });
 module.exports = mongoose.model('Company', companySchema);

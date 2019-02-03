@@ -38,6 +38,8 @@ passport.use('local.signup', new localStrategy({
         newUser.profile_image = 'user_profile.png';
         newUser.company_name = req.body.company_name;
         newUser.admin_id = '';
+        newUser.lManager = '';
+        newUser.bManager = '';
         newUser.save(function(err){
             if(err) {
                 return done(err);

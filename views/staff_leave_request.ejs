@@ -16,11 +16,13 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/solid.css" integrity="sha384-+0VIRx+yz1WBcCTXBkVQYIBVNEFH1eP6Zknm16roZCyeNg2maWEpk/l/KsyFKs7G" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/fontawesome.css" integrity="sha384-jLuaxTTBR42U2qJ/pm4JRouHkEDHkVqH0T1nyQXn1mZ7Snycpf6Rl25VBNthU4z0" crossorigin="anonymous">
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700' rel='stylesheet' type='text/css'>
+
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-   <link rel="stylesheet" type="text/css" href="css/settings.css">
+  <link rel="stylesheet" href="css/view_leave.css">
 
 
 </head>
@@ -30,95 +32,7 @@
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon">
-          <!--i class="fas fa-laugh-wink"></i-->
-        </div>
-        <div class="sidebar-brand-text mx-3">CREATE APPRAISAL</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Dashboards Accordion Menu -->
-      <li class="nav-item active">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <!--i class="fas fa-fw fa-tachometer-alt"></i-->
-          <span>Employee</span>
-        </a>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Employee:</h6>
-            <a class="collapse-item" href="index.html">Management System</a>
-            <a class="collapse-item" href="#">Information System</a>
-            <a class="collapse-item" href="#">Account Management System</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Components
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Appraisal</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Templates</h6>
-            <a class="collapse-item" href="/create_appraisal">Create Templates</a>
-            <a class="collapse-item" href="/appraisal">View Appraisal</a>
-            <a class="collapse-item" href="/assign">Assign</a>
-            <a class="collapse-item" href="/suspend">Drop or Suspend</a>
-            <a class="collapse-item" href="/reports">Reports and Analysis</a>
-            <a class="collapse-item" href="/query">Querying System</a>
-          </div>
-        </div>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Addons
-      </div>
-
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Email</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
-    </ul>
-    <!-- End of Sidebar -->
+    <% include sidebar.ejs %>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -167,27 +81,6 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="settingDropdown">
-                  <a class="dropdown-item" href="#">
-                      <label class="btnwrapper">Admin
-                         <% if (user.category == 'admin') { %>
-                          <input type="radio" name="radio" checked = true value = 'admin'>  
-                         <% }else { %> 
-                          <input type="radio" name="radio" value = 'admin'>  
-                          <% }%> 
-                          <span class="checkmark"></span>
-                      </label>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                      <label class="btnwrapper"><span style="margin-top: 10px;">Staff</span>
-                        <% if (user.category == 'staff') { %>
-                          <input type="radio" name="radio" checked = true value = 'admin'>  
-                         <% }else { %> 
-                          <input type="radio" name="radio" value = 'admin'>  
-                          <% }%>
-                          <span class="checkmark"></span>
-                      </label>
-                  </a>
               </li>
   
             <!-- Nav Item - User Information -->
@@ -224,38 +117,33 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <!-- Area Chart -->
           <div class="card border-0 shadow mb-4">
             <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">Basic Settings</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Company Details</h6>
             </div>
             <div class="card-body">  
-              <div style="">
-                   <div></div>
-                   <div class="checkerdiv" style ="">
-                       <form method = "post" action = "/usercategory">
-                        <label class="btnwrapper"><span class="label">Administator</span>
-                                <input type="radio" name="category" value="admin">
-                                <span class="checkmark"></span>
-                        </label>
-                        <label class="btnwrapper"><span class="label">Staff</span>
-                                <input type="radio" name="category" value="staff">
-                                <span class="checkmark"></span>
-                        </label>
-                       <label class="btnwrapper"><span class="label">Line Manager</span>
-                          <input type="radio" name="category" value="lManager">
-                          <span class="checkmark"></span>
-                       </label>
-                       <label class="btnwrapper"><span class="label">Branch Manager</span>
-                        <input type="radio" name="category" value="bManager">
-                        <span class="checkmark"></span>
-                       </label>
-                        <div class="submit_btn" style="">
-                           <input type="submit" value="Update" class="btn btn-primary"/>    
+                <div class="row" id="ads">
+                    <!-- Category Card -->
+                    <% for (let i = 0; i < leave.length; i++) { %>  
+                    <div class="col-md-3">
+                        <div class="card rounded" id = 'card<%=i%>' user_id = "<%=user._id%>">
+                            <div class="card-image">
+                                <span class="card-notify-badge" style="color: #858796;background-color: #fff;">Stage: <%= leave[i].stage%> </span>
+                                <span class="card-notify-year"><span style="display: block;font-size: 20px;"> <%= date_created[i].day_created %></span><span style="display: block;font-size: 10px;"><%= date_created[i].month_created %> <%= date_created[i].year_created %></span></span>
+                                <div class="text-center" style="padding: 10px;"><img src="images/doc.png" alt="..." class="rounded-circle" style="width: 100px;height: 100px;"></div>
+                            </div>
+                            <div class="card-image-overlay m-auto">
+                                <div style="background-color: #fff; color: #858796;padding: 4px;font-size: 13px;border-radius: 2px;font-weight: 800;">Level : <%= leave[i].fstage%></div>
+                            </div>
+                            <div class="card-body text-center">
+                                <div class="ad-title m-auto" style="padding: 4px;">
+                                    <h5>15 Days Leave</h5>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                   </div>
-              </div>  
+                    </div>
+                    <% } %>
+                </div>
               <div class="chart-area">
                 <canvas id="myAreaChart"></canvas>
               </div>
@@ -338,7 +226,7 @@
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
   <script type="text/javascript" src = "js/appraisal.js"></script>
-
+  <script type="text/javascript" src = "js/timeline.js"></script>
 </body>
 
 </html>

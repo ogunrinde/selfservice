@@ -18,6 +18,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+   <link rel="stylesheet" type="text/css" href="css/appraisal.css">
 
 </head>
 
@@ -25,7 +26,10 @@
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+
+    <!-- Sidebar -->
     <% include sidebar.ejs %>
+    <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -38,7 +42,12 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <div class="flex_container">
+                <% if (appraisal_remove.length === 0 ) { %>
+                    <div class="alert alert-light" role="alert">
+                        <%=appraisal_remove%>
+                    </div>
+                    <% } %>
+          <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">
                  <div class="icon"><i class="fa fa-users"></i></div>
@@ -87,34 +96,50 @@
                 <p>View More</p>
               </div>
             </div>
-          </div>
+          </div-->
           <!-- Area Chart -->
-          <div class="card border-0 shadow mb-4">
-            <div class="row" style="margin-top: 10px;">
-                <div class="col-lg-8">
-                  <div class="card mb-3">
-                    <div class="card-header">
-                      <i class="fas fa-chart-bar"></i>
-                      Performance</div>
-                    <div class="card-body">
-                      <canvas id="myBarChart" width="100%" height="50"></canvas>
-                    </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="card mb-3">
-                    <div class="card-header">
-                      <i class="fas fa-chart-pie"></i>
-                      Analysis</div>
-                    <div class="card-body">
-                      <canvas id="myPieChart" width="100%" height="100"></canvas>
-                    </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                  </div>
-                </div>
-              </div>
+          <div class="listwrapper">
+          <ul class="list-group">
+              <% for(var i=0; i < template_data.length; i++) { %>
+              <a class="getdata" id = "getdata<%=i%>" year = "<%= template_data[i].year %>">  
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                  
+                  <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= template_data[i].period %> (<%= template_data[i].year %>)</span>
+                
+                <span class="drop badge badge-pill" id = "badge<%=template_data[i]._id%>" data = "<%=template_data[i]._id%>" style="font-size: 16px;color:red">x</span>
+              </li></a>
+              <% } %>
+            </ul>
           </div>
+          <form method="post" action="/view_appraisal" style="display: none" >
+             <input type="text" name = 'year' id = 'addyear'/>
+             <input type="submit" value="submit" id = 'submityear'>
+          </form> 
+          <!--div class="contain">
+                <div class="viewcard">
+                  <div class="back">
+                    <h1>Helen Parker<span>design <i>&</i> photography</span></h1>
+                    <ul>
+                      <li>+1-111-111-11-11</li>
+                      <li>my-email@email.com</li>
+                      <li>my-site.com</li>
+                      </ul>
+                  </div>
+                  </div>
+           </div-->
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         </div>
         <!-- /.container-fluid -->
@@ -143,6 +168,24 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -158,14 +201,8 @@
   <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/js/demo/chart-area-demo.js"></script>
-      <!-- Custom scripts for all pages-->
-      <script src="js/js/sb-admin-2.min.js"></script>
-
-      <!-- Demo scripts for this page-->
-      <script src="js/js/demo/chart-area-demo.js"></script>
-      <script src="js/js/demo/chart-bar-demo.js"></script>
-      <script src="js/js/demo/chart-pie-demo.js"></script>
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script type="text/javascript" src = "js/appraisal.js"></script>
 
 </body>
 

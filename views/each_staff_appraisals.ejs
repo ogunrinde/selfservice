@@ -42,11 +42,39 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-                <% if (appraisal_suspend.length === 0 ) { %>
-                    <div class="alert alert-light" role="alert">
-                        <%=appraisal_suspend%>
+            <div class="alert alert-light" role="alert">
+                <div class="row">
+                    <div class="col-lg-2 text-center">
+                        <h6 class="text-primary"style='font-weight:400;'>Employee ID</h6>
+                        <p><%=staff.employee_ID%></p>
                     </div>
-                    <% } %>
+                    <div class="col-lg-2 text-center">
+                            <h6 class="text-primary"style='font-weight:400;'>Company</h6>
+                            <p><%=staff.company_name%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6 class="text-primary"style='font-weight:400;'>Leave Applicant</h6>
+                            <p><%=staff.name%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6 class="text-primary"style='font-weight:400;'>Branch</h6>
+                            <p><%=staff.company_name%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6 class="text-primary"style='font-weight:400;'>Role</h6>
+                            <p><%=staff.role%></p>
+                    </div>
+                    <div class="col-lg-2 text-center">
+                            <h6 class="text-primary"style='font-weight:400;'>E-mail</h6>
+                            <p><%=staff.email%></p>
+                    </div>
+                </div>
+            </div>
+            <% if (template_data.length === 0 ) { %>
+              <div class="alert alert-light" role="alert">
+                  Staff has no appraisal yet...
+              </div>
+              <% } %>
           <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">
@@ -105,14 +133,18 @@
               <li class="list-group-item d-flex justify-content-between align-items-center">
                   
                   <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= template_data[i].period %> (<%= template_data[i].year %>)</span>
-                
-                <span class="suspend badge badge-pill" id = "badge<%=template_data[i]._id%>" data = "<%=template_data[i]._id%>" style="font-size: 14px;color:red;cursor: pointer;">suspend</span>
+                <% if (l_seen == false) { %>
+                <span class="badge badge-danger badge-pill"><i class="fa fa-eye-slash" style="margin-right: 7px;"></i>Line Manager</span>
+                <% }else if (b_seen == false) { %>
+                  <span class="badge badge-danger badge-pill"><i class="fa fa-eye-slash" style="margin-right: 7px;"></i>Branch Manager</span>
+                <% } %>  
               </li></a>
               <% } %>
             </ul>
           </div>
-          <form method="post" action="/view_appraisal" style="display: none" >
+          <form method="post" action="/view_filled_appraisal" style="display: none" >
              <input type="text" name = 'year' id = 'addyear'/>
+             <input type="text" name = 'user_id' value ='<%=template_data[0].replies[0].staff_id%>'/>
              <input type="submit" value="submit" id = 'submityear'>
           </form> 
           <!--div class="contain">

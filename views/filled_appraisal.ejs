@@ -38,15 +38,80 @@
       <div id="content">
 
         <!-- Topbar -->
-        <% include top_nav.ejs %>
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Topbar Search -->
+          <form class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 w-100">
+            <div class="input-group">
+              <input type="text" class="form-control border-0 bg-light" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" style="font-size: 0.85rem;">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav mr-auto ml-md-auto">
+
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">0</span>
+              </a>
+            </li>
+
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">0</span>
+              </a>
+            </li>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="img-profile rounded-circle" src="images/profile.png">
+              </a>
+              <!-- Dropdown - User Information -->
+              <!--div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div-->
+            </li>
+
+          </ul>
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none">
+            <i class="fa fa-bars"></i>
+          </button>
+
+        </nav>
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-                <% if (appraisal_suspend.length === 0 ) { %>
-                    <div class="alert alert-light" role="alert">
-                        <%=appraisal_suspend%>
-                    </div>
-                    <% } %>
+            <% if (appraisal.length === 0 ) { %>
+            <div class="alert alert-light" role="alert">
+                No Appraisal Uploaded yet...
+            </div>
+            <% } %>
           <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">
@@ -99,19 +164,22 @@
           </div-->
           <!-- Area Chart -->
           <div class="listwrapper">
-          <ul class="list-group">
-              <% for(var i=0; i < template_data.length; i++) { %>
-              <a class="getdata" id = "getdata<%=i%>" year = "<%= template_data[i].year %>">  
+          <ul class="list-group" >
+              <% for(var i=0; i < appraisal.length; i++) { %>
+              <a class="getdata" id = "getdata<%=i%>" year = "<%= appraisal[i].year %>">  
               <li class="list-group-item d-flex justify-content-between align-items-center">
                   
-                  <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= template_data[i].period %> (<%= template_data[i].year %>)</span>
-                
-                <span class="suspend badge badge-pill" id = "badge<%=template_data[i]._id%>" data = "<%=template_data[i]._id%>" style="font-size: 14px;color:red;cursor: pointer;">suspend</span>
+                  <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= appraisal[i].period %> (<%= appraisal[i].year %>)</span>
+                <% if(l_seen == false) { %>
+                  <span class="badge badge-danger badge-pill"><i class="fa fa fa-eye-slash" style="margin-right: 7px;"></i>Line Manager</span>
+                <% }else if (b_seen == false){ %>
+                  <span class="badge badge-danger badge-pill"><i class="fa fa-eye-slash" style="margin-right: 7px;"></i>Branch Manager</span>
+                <% } %>  
               </li></a>
               <% } %>
             </ul>
           </div>
-          <form method="post" action="/view_appraisal" style="display: none" >
+          <form method="post" action="/view_filled_appraisal" style="display: none" >
              <input type="text" name = 'year' id = 'addyear'/>
              <input type="submit" value="submit" id = 'submityear'>
           </form> 

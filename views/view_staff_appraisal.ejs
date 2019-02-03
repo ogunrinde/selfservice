@@ -36,7 +36,72 @@
       <div id="content">
 
         <!-- Topbar -->
-        <% include top_nav.ejs %>
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Topbar Search -->
+          <form class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 w-100">
+            <div class="input-group">
+              <input type="text" class="form-control border-0 bg-light" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" style="font-size: 0.85rem;">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav mr-auto ml-md-auto">
+
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">0</span>
+              </a>
+            </li>
+
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">0</span>
+              </a>
+            </li>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="img-profile rounded-circle" src="images/profile.png">
+              </a>
+              <!-- Dropdown - User Information -->
+              <!--div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div-->
+            </li>
+
+          </ul>
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none">
+            <i class="fa fa-bars"></i>
+          </button>
+
+        </nav>
         <!-- End of Topbar -->
 
         <div class="container-fluid">
@@ -135,24 +200,116 @@
                             <p style="font-weight: 800;">APPRAISEE JUSTIFICATION</p>
                             </div><hr style="margin-top: -10px;"/>
                             <div class="text-center">
-                              <textarea name="appraisee_justification" class="form-control justify" curr = "<%=i%>" id="justify<%=i%>" rows="5" value = ""></textarea>
+                              <textarea name="appraisee_justification" class="form-control justify" id="justify<%=i%>" rows="5" value = "<%= justifications[i]%>"></textarea>
                               <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
                             </div>
                           <div>
                           </div>  
+                          <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">LINE MANAGER REMARK</p>
+                          </div><hr style="margin-top: -10px;"/>
+                          <div class="text-center">
+                            <button type="button" class="btn btn-primary">A</button>
+                            <button type="button" class="btn btn-outline-secondary">B</button>
+                            <button type="button" class="btn btn-outline-secondary">C</button>
+                            <button type="button" class="btn btn-outline-secondary">D</button>
+                            <button type="button" class="btn btn-outline-secondary">E</button>
                           </div>
+                          <div style="margin-top: 20px;">
+                            <p style="font-weight: 800;">LINE MANAGER JUSTIFICATION</p>
+                          </div><hr style="margin-top: -10px;"/>
+                          <div class="text-center">
+                          <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
+                          </div>
+                          </div>
+                       <% } else if (user.category == 'lManager') {%>
+                        <div>
+                            <div style="margin-top: 20px;">
+                               <p style="font-weight: 800;">APPRAISEE REMARK</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <button type="button" class="btn btn-primary">A</button>
+                              <button type="button" class="btn btn-outline-secondary">B</button>
+                              <button type="button" class="btn btn-outline-secondary">C</button>
+                              <button type="button" class="btn btn-outline-secondary">D</button>
+                              <button type="button" class="btn btn-outline-secondary">E</button>
+                            </div>
+                            <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">APPRAISEE JUSTIFICATION</p>
+                              </div><hr style="margin-top: -10px;"/>
+                              <div class="text-center">
+                                <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
+                              </div>
+                              <div style="margin-top: 20px;">
+                                <p style="font-weight: 800;">LINE MANAGER REMARK</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <button type="button" class="btn btn-primary">A</button>
+                              <button type="button" class="btn btn-outline-secondary">B</button>
+                              <button type="button" class="btn btn-outline-secondary">C</button>
+                              <button type="button" class="btn btn-outline-secondary">D</button>
+                              <button type="button" class="btn btn-outline-secondary">E</button>
+                            </div>
+                            <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">LINE MANAGER JUSTIFICATION</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                            <textarea name="lManager_comment" class="form-control" id="" cols="" rows="10"></textarea>
+                          </div>
+                        </div>
+                       <% } else if (user.category == 'bManager') {%>
+                        <div>
+                            <div style="margin-top: 20px;">
+                               <p style="font-weight: 800;">APPRAISEE REMARK</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <button type="button" id = 'a' class="btn btn-outline-secondary">A</button>
+                              <button type="button" id = 'b' class="btn btn-outline-secondary">B</button>
+                              <button type="button" id = 'c' class="btn btn-outline-secondary">C</button>
+                              <button type="button" id = 'd' class="btn btn-outline-secondary">D</button>
+                              <button type="button" id = 'e' class="btn btn-outline-secondary">E</button>
+                            </div>
+                            <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">APPRAISEE JUSTIFICATION</p>
+                              </div><hr style="margin-top: -10px;"/>
+                              <div class="text-center">
+                                <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
+                              </div>
+                              <div style="margin-top: 20px;">
+                                <p style="font-weight: 800;">LINE MANAGER REMARK</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <button type="button" class="btn btn-primary">A</button>
+                              <button type="button" class="btn btn-outline-secondary">B</button>
+                              <button type="button" class="btn btn-outline-secondary">C</button>
+                              <button type="button" class="btn btn-outline-secondary">D</button>
+                              <button type="button" class="btn btn-outline-secondary">E</button>
+                            </div>
+                            <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">LINE MANAGER JUSTIFICATION</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
+                          </div>
+                          <div style="margin-top: 20px;">
+                              <p style="font-weight: 800;">BRANCH MANAGER JUSTIFICATION</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                                <textarea name="bManager_comment" class="form-control" id="" cols="" rows="10"></textarea>
+                          </div>
+                        </div>
                        <% } %> 
-                          <% if (i == 0) { %>
+                          <% if (i == 0 && user.category == 'staff') { %>
                           <div class="form-group">
                               <button class="btn btn-primary next" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
                           </div>
-                          <% }  else if (i > 0 && i < appraisal.length - 1) { %>
+                          <% }  else if (i > 0 && i < appraisal.length - 1 && user.category == 'staff') { %>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-danger prev" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+                              <button type="button" class="btn btn-danger prev">PREVIOUS</button>
                               <button type="button" class="btn btn-primary next" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
                           </div>
-                            <% } else if (i == appraisal.length - 1) { %>
-                              <button class="btn btn-danger prev" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+                            <% } else if (i == appraisal.length - 1 && user.category == 'staff') { %>
+                              <button class="btn btn-danger prev">PREVIOUS</button>
                               <button type="button" class="btn btn-primary" id = 'submit_btn'>SUBMIT</button>
                             <% } %>
                             </form>

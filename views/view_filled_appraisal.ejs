@@ -40,56 +40,6 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <!--div class="flex_container">
-            <div class="card bg-success">
-              <div class="eachcard">
-                 <div class="icon"><i class="fa fa-users"></i></div>
-                 <div class="title" style="text-align: center;">
-                   <span>22</span>
-                   <span>Employee</span>
-                 </div>
-              </div>
-              <div style="background-color: #fff;padding: 7px;padding-bottom: 0px;" class="text-success">
-                <p>View More</p>
-              </div>
-            </div>
-            <div class="card bg-primary">
-              <div class="eachcard">
-                 <div class="icon"><i class="fa fa-book"></i></div>
-                 <div class="title" style="text-align: center;">
-                   <span>22</span>
-                   <span>Appraisal</span>
-                 </div>
-              </div>
-              <div style="background-color: #fff;padding: 7px;padding-bottom: 0px;" class="text-primary">
-                <p>View More</p>
-              </div>
-            </div>
-            <div class="card bg-dark">
-              <div class="eachcard">
-                 <div class="icon"><i class="fa fa-bars"></i></div>
-                 <div class="title" style="text-align: center;">
-                   <span>22</span>
-                   <span>Report</span>
-                 </div>
-              </div>
-              <div style="background-color: #fff;padding: 7px;padding-bottom: 0px;" class="text-dark">
-                <p>View More</p>
-              </div>
-            </div>
-            <div class="card bg-danger">
-              <div class="eachcard">
-                 <div class="icon"><i class="fa fa-cogs"></i></div>
-                 <div class="title" style="text-align: center;">
-                   <span>22</span>
-                   <span>Settings</span>
-                 </div>
-              </div>
-              <div style="background-color: #fff;padding: 7px;padding-bottom: 0px;" class="text-danger">
-                <p>View More</p>
-              </div>
-            </div>
-          </div-->
           <!-- Area Chart -->
           <input type="text" style="display: none;" id = 'app_year' value="<%=appraisal_year%>">
           <input type="text" style="display: none;" id = 'app_id' value="<%=appraisal_id%>">
@@ -98,63 +48,83 @@
                <div id="slides">
                       <% for(var i=0; i < appraisal.length; i++) { %>   
                         <div class="eachslide">
-                          <form action="" method="">
+                          <form>
                           <div class="counter" style="text-align: center;">
                               <div class="" style="width: 60px;height: 60px;border-radius: 30px;padding-top: 20px;color:#fff;background-color: #FC5135"><span><%= i + 1%>/<%= appraisal.length %></span></div>
                           </div>
                           <div class="text_header" style="margin-bottom: 15px;">
-                            <p>KPI PERSPECTIVE</p>
+                            <p class="text-primary">KPI PERSPECTIVE</p>
                             <div style="text-align: justify;"><%= appraisal[i].KPI_PERSPECTIVE%></div>
                           </div>
                           <div  class="text_header" style="margin-bottom: 15px;">
-                              <p>KEY RESULT AREA</p>
+                              <p class="text-primary">KEY RESULT AREA</p>
                               <div style="text-align: justify;"><%= appraisal[i].KEY_RESULT_AREA%></div>
                           </div>
                           <div  class="text_header" style="margin-bottom: 15px;">
-                              <p>KPI DESCRIPTION</p>
+                              <p class="text-primary">KPI DESCRIPTION</p>
                               <div style="text-align: justify;"><%= appraisal[i].KPI_DESCRIPTION %></div>
                           </div>
                           <div  class="text_header" style="margin-bottom: 15px;">
-                              <p>KPI PARAMETER</p>
+                              <p class="text-primary">KPI PARAMETER</p>
                               <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
                           </div>
-                          <% if (user.category == 'staff') {%>
+                          <% if (user.category == 'staff' || user.category == 'admin') {%>
                           <div>            
                           <div style="margin-top: 20px;">
-                             <p style="font-weight: 800;">APPRAISEE REMARK</p>
+                             <p class="text-primary" style="font-weight: 800;">APPRAISEE REMARK</p>
                           </div><hr style="margin-top: -10px;"/>
                           <div class="text-center">
                             <input type="text" style="display: none" id="staff_remarks<%=i%>" curr = "<%=i%>" total = "<%=appraisal.length%>" >
+                            <% if (remarks[i] == 'a') { %>
+                            <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-success">A</button>
+                            <% } else {%>
                             <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">A</button>
-                            <button type="button" id="b<%=i%>" curr = "<%=i%>"  class="grade btn btn-outline-secondary">B</button>
-                            <button type="button" id="c<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">C</button>
-                            <button type="button" id="d<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">D</button>
-                            <button type="button" id="e<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">E</button>
+                            <% } %>
+                            <% if (remarks[i] == 'b') { %>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-success">B</button>
+                                <% } else {%>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">B</button>
+                            <% } %>
+                            <% if (remarks[i] == 'c') { %>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-primary">C</button>
+                                <% } else {%>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">C</button>
+                            <% } %>
+                            <% if (remarks[i] == 'd') { %>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-danger">D</button>
+                                <% } else {%>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">D</button>
+                            <% } %>
+                            <% if (remarks[i] == 'e') { %>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-danger">E</button>
+                                <% } else {%>
+                                <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">E</button>
+                            <% } %>
                           </div>
                           <div style="margin-top: 20px;">
                             <p style="font-weight: 800;">APPRAISEE JUSTIFICATION</p>
                             </div><hr style="margin-top: -10px;"/>
                             <div class="text-center">
-                              <textarea name="appraisee_justification" class="form-control justify" curr = "<%=i%>" id="justify<%=i%>" rows="5" value = ""></textarea>
+                              <textarea name="appraisee_justification" value="<%=justifications[i]%>" class="form-control justify" id="justify<%=i%>" rows="5" value = ""><%=justifications[i]%></textarea>
                               <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
                             </div>
                           <div>
                           </div>  
                           </div>
                        <% } %> 
-                          <% if (i == 0) { %>
-                          <div class="form-group">
-                              <button class="btn btn-primary next" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
-                          </div>
-                          <% }  else if (i > 0 && i < appraisal.length - 1) { %>
-                          <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-danger prev" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
-                              <button type="button" class="btn btn-primary next" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
-                          </div>
-                            <% } else if (i == appraisal.length - 1) { %>
-                              <button class="btn btn-danger prev" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
-                              <button type="button" class="btn btn-primary" id = 'submit_btn'>SUBMIT</button>
-                            <% } %>
+                       <% if (i == 0) { %>
+                        <div class="form-group">
+                            <button class="btn btn-primary next_review" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
+                        </div>
+                        <% }  else if (i > 0 && i < appraisal.length - 1) { %>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-danger prev_review" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+                            <button type="button" class="btn btn-primary next_review" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
+                        </div>
+                          <% } else if (i == appraisal.length - 1) { %>
+                            <button class="btn btn-danger prev_review" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+                            <!--button class="btn btn-primary return" class="" id = "<%=i%>" curr = "<%=i%>">RETURN</button-->
+                          <% } %>
                             </form>
                         </div>
                       <% } %>  

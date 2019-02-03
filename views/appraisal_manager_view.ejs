@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>MultiChase Dashboard</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css">
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+  <link rel="stylesheet" type="text/css" href="css/appraisal.css">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <% include top_nav.ejs %>
+        <!-- End of Topbar -->
+
+        <div class="container-fluid">
+          <!-- Area Chart -->
+          <input type="text" style="display: none;" id = 'app_year' value="<%=appraisal_year%>">
+          <input type="text" style="display: none;" id = 'app_id' value="<%=appraisal_id%>">
+          <input type="text" style="display: none;" id = 'staff_id' value="<%=staff_id%>">
+          <input type="text" style="display: none;" id = 'manager' value="<%=manager%>">
+          <input type="text" style="display: none;" id = 'manager_email' value="<%=manager_email%>">
+          <input type="text" style="display: none;" id = 'staff_email' value="<%=staff_email%>">
+          <div class="card border-0 shadow mb-4">
+            <div style="margin-top: 20px;">
+             <div id="slides">
+
+              <% for(var i=0; i < appraisal.length; i++) { let r = '' %>   
+              <div class="eachslide">
+                <form>
+                  <div class="counter" style="text-align: center;">
+                    <div class="" style="width: 60px;height: 60px;border-radius: 30px;padding-top: 20px;color:#fff;background-color: #FC5135"><span><%= i + 1%>/<%= appraisal.length %></span></div>
+                  </div>
+                  <div class="text_header" style="margin-bottom: 15px;">
+                    <p class="text-primary">KPI PERSPECTIVE</p>
+                    <div style="text-align: justify;"><%= appraisal[i].KPI_PERSPECTIVE%></div>
+                  </div>
+                  <div  class="text_header" style="margin-bottom: 15px;">
+                    <p class="text-primary">KEY RESULT AREA</p>
+                    <div style="text-align: justify;"><%= appraisal[i].KEY_RESULT_AREA%></div>
+                  </div>
+                  <div  class="text_header" style="margin-bottom: 15px;">
+                    <p class="text-primary">KPI DESCRIPTION</p>
+                    <div style="text-align: justify;"><%= appraisal[i].KPI_DESCRIPTION %></div>
+                  </div>
+                  <div  class="text_header" style="margin-bottom: 15px;">
+                    <p class="text-primary">KPI PARAMETER</p>
+                    <div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div>
+                  </div>
+
+                  <div>            
+                    <div style="margin-top: 20px;">
+                     <p class="text-primary" style="font-weight: 800;">APPRAISEE REMARK</p>
+                   </div><hr style="margin-top: -10px;"/>
+                   <div class="text-center">
+                    <input type="text" style="display: none" total = "<%=appraisal.length%>" >
+                    <% if (remarks[i] == 'a') { %>
+                    <button type="button" class="grade btn btn-success">A</button>
+                    <% } else {%>
+                    <button type="button" class="grade btn btn-outline-secondary">A</button>
+                    <% } %>
+                    <% if (remarks[i] == 'b') { %>
+                    <button type="button" class="grade btn btn-success">B</button>
+                    <% } else {%>
+                    <button type="button" class="grade btn btn-outline-secondary">B</button>
+                    <% } %>
+                    <% if (remarks[i] == 'c') { %>
+                    <button type="button" class="grade btn btn-primary">C</button>
+                    <% } else {%>
+                    <button type="button" class="grade btn btn-outline-secondary">C</button>
+                    <% } %>
+                    <% if (remarks[i] == 'd') { %>
+                    <button type="button" class="grade btn btn-danger">D</button>
+                    <% } else {%>
+                    <button type="button"  class="grade btn btn-outline-secondary">D</button>
+                    <% } %>
+                    <% if (remarks[i] == 'e') { %>
+                    <button type="button" class="grade btn btn-danger">E</button>
+                    <% } else {%>
+                    <button type="button" class="grade btn btn-outline-secondary">E</button>
+                    <% } %>
+                  </div>
+                  <div style="margin-top: 20px;">
+                    <p style="font-weight: 800;" class="text-primary">APPRAISEE JUSTIFICATION</p>
+                  </div><hr style="margin-top: -10px;"/>
+                  <div class="text-center">
+                    <textarea name="appraisee_justification" value="<%=justifications[i]%>" class="form-control" id="" rows="5" value = ""><%=justifications[i]%></textarea>
+                    <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
+                  </div>  
+                </div>
+                <div>
+                <div>            
+                  <div style="margin-top: 20px;">
+                   <p class="text-primary" style="font-weight: 800;">LINE MANAGER REMARK</p>
+                 </div><hr style="margin-top: -10px;"/>
+                 <div class="text-center">
+                  <input type="text" style="display: none" id="staff_remarks<%=i%>" curr = "<%=i%>" total = "<%=appraisal.length%>" >
+                  <% if (lManager_remarks[i] == 'a') { %>
+                  <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-success">A</button>
+                  <% } else {%>
+                  <button type="button" id="a<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">A</button>
+                  <% } %>
+                  <% if (lManager_remarks[i] == 'b') { %>
+                  <button type="button" id="b<%=i%>" curr = "<%=i%>" class="grade btn btn-success">B</button>
+                  <% } else {%>
+                  <button type="button" id="b<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">B</button>
+                  <% } %>
+                  <% if (lManager_remarks[i] == 'c') { %>
+                  <button type="button" id="c<%=i%>" curr = "<%=i%>" class="grade btn btn-primary">C</button>
+                  <% } else {%>
+                  <button type="button" id="c<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">C</button>
+                  <% } %>
+                  <% if (lManager_remarks[i] == 'd') { %>
+                  <button type="button" id="d<%=i%>" curr = "<%=i%>" class="grade btn btn-danger">D</button>
+                  <% } else {%>
+                  <button type="button" id="d<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">D</button>
+                  <% } %>
+                  <% if (lManager_remarks[i] == 'e') { %>
+                  <button type="button" id="e<%=i%>" curr = "<%=i%>" class="grade btn btn-danger">E</button>
+                  <% } else {%>
+                  <button type="button" id="e<%=i%>" curr = "<%=i%>" class="grade btn btn-outline-secondary">E</button>
+                  <% } %>
+                </div>
+                <div style="margin-top: 20px;">
+                  <p style="font-weight: 800;" class="text-primary">LINE MANAGER JUSTIFICATION</p>
+                </div><hr style="margin-top: -10px;"/>
+                <div class="text-center">
+                  <textarea name="appraisee_justification" value="<%=lManager_justification[i]%>" class="form-control justify" id="justify<%=i%>" curr = "<%=i%>" rows="5" value = ""><%=lManager_justification[i]%></textarea>
+                  <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
+                </div>  
+              </div> 
+              </div>
+              <div>
+                <div>            
+                  <div style="margin-top: 20px;">
+                   <p class="text-primary" style="font-weight: 800;">BRANCH MANAGER REMARK</p>
+                 </div><hr style="margin-top: -10px;"/>
+                <div class="text-center">
+                  <textarea name="appraisee_justification" value="<%=bManager_justification[i]%>" class="form-control bjustify" id="bjustify<%=i%>" curr = "<%=i%>" rows="5" value = ""><%=bManager_justification[0]%></textarea>
+                  <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
+                </div>  
+              </div> 
+              </div>
+              <% if (i == 0) { let r = lManager_remarks.length > 0 ? '_review' : ''; %>
+              <div class="form-group" style="margin-top: 10px;">
+                <button class="btn btn-primary next<%=r%>" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
+              </div>
+              <% }  else if (i > 0 && i < appraisal.length - 1) { let r = lManager_remarks.length > 0 ? '_review' : '';%>
+              <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 10px;">
+                <button type="button" class="btn btn-danger prev<%=r%>" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+                <button type="button" class="btn btn-primary next<%=r%>" id = "<%=i%>" curr = "<%=i%>">NEXT</button>
+              </div>
+              <% } else if (i == appraisal.length - 1) { let r = lManager_remarks.length > 0 ? '_review' : ''; %>
+              <div class="btn-group" role="group" aria-label="Basic example" style="margin-top: 10px;"></div>
+              <button class="btn btn-danger prev<%=r%>" id = "<%=i%>" curr = "<%=i%>">PREVIOUS</button>
+              <% if (lManager_remarks.length > 0) { %>
+
+              <% } else if (bManager_remarks.length > 0){%>
+              
+              <% } else { %>
+                <button class="btn btn-primary"  class="" id = "manager_btn" curr = "<%=i%>">SUBMIT</button>
+              <% }%>
+            </div>
+            <% } %>
+          </form>
+        </div>
+        <% } %>  
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span></span>
+    </div>
+  </div>
+</footer>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="login.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.js"></script>
+<script type="text/javascript" src = "js/appraisal.js"></script>
+
+</body>
+
+</html>

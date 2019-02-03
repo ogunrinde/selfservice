@@ -3,6 +3,7 @@ var templateSchema = new mongoose.Schema({
     year: {type: String},
     period : { type: String},
     appraisal: { type : Array},
+    replies: [],
     remarks: {type : String},
     justifications: {type: String},
     admin_id: { type : String }

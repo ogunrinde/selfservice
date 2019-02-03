@@ -42,118 +42,72 @@
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Topbar Search -->
-          <form class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 w-100">
-            <div class="input-group">
-              <input type="text" class="form-control border-0 bg-light" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" style="font-size: 0.85rem;">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav mr-auto ml-md-auto">
-
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">0</span>
-              </a>
-            </li>
-
-            <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">0</span>
-              </a>
-            </li>
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="settingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-cog"></i>
-                </a>
-                <!-- Dropdown - User Information -->
-                <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="settingDropdown">
-                  <a class="dropdown-item" href="#">
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">
-                  </a>
-              </li>
-  
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="images/profile.png">
-              </a>
-              <!-- Dropdown - User Information -->
-              <!--div class="dropdown-menu dropdown-menu-right border-0 shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div-->
-            </li>
-
-          </ul>
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none">
-            <i class="fa fa-bars"></i>
-          </button>
-
-        </nav>
+        <% include top_nav.ejs %>
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <div class="card border-0 shadow mb-4" style="height: 300px;">
+          <div class="card border-0 shadow mb-4" style="height: 350px;">
             <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">Company Details</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Staff Details</h6>
             </div>
             <div class="card-body">  
               <div style="">
                 <form action="/advanced_settings" method = "post" enctype="multipart/form-data">
-                   <div class="row">
-                       <div class="col-lg-3">
-                                <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/upload.png" alt=""></div>
-                                <div style="text-align: center;font-weight: 600;">Employee ID</div>
-                                <input type="file" name="file" id="file" style="display: none;">
-                       </div>
-                       <div class="col-lg-3">
+                  <div class="row">
+                      <div class="col-lg-3">
+                          <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=this_user.profile_image%>" alt=""></div>
+                          <input type="file" name="file" id="file" style="display: none;">
+                      </div>
+                      <div class="col-lg-9">
+                         <div class="row">
+                            <div class="col-lg-3">
                                 <div class="form-group"> 
-                                    <label for="admin id" style="font-weight: 600;">Employee Name</label>
-                                    <p>Ogunrinde Omotayo</p>
-                                </div>
+                                    <label for="admin id" class="text-primary" style="font-weight: 500;">Employee Name</label>
+                                    <p><%=this_user.name%></p>
+                            </div>
                        </div>
                        <div class="col-lg-3">
                         <div class="form-group">
-                            <label for="admin id" style="font-weight: 600;">Department</label>
-                            <p>Ogunrinde Omotayo</p>
+                            <label for="admin id" class="text-primary" style="font-weight: 500;">Department</label>
+                            <p><%=this_user.department%></p>
                         </div>
                        </div>
                        <div class="col-lg-3">
                         <div class="form-group">
-                            <label for="admin id" style="font-weight: 600;">Line Manager</label>
-                            <p>Ogunrinde Omotayo</p>
+                            <label for="admin id" class="text-primary" style="font-weight: 500;">Line Manager</label>
+                            <p><%=this_user.lManager%></p>
                         </div>
                        </div>
+                       <div class="col-lg-3 text-center">
+                          <div class="form-group"> 
+                              <label for="admin id" class="text-primary" style="font-weight: 500;">Role</label>
+                              <p><%=this_user.role%></p>
+                          </div>
+                       </div>
+                         </div>
+                         <div class="row" style="margin-top: 20px;">
+                            <div class="col-lg-3">
+                                     <div class="form-group"> 
+                                         <label for="admin id" class="text-primary" style="font-weight: 500;">Role</label>
+                                         <p><%=this_user.role%></p>
+                                     </div>
+                            </div>
+                            <div class="col-lg-3">
+                             <div class="form-group">
+                                 <label for="admin id" class="text-primary" style="font-weight: 500;">Employee ID</label>
+                                 <p><%=this_user.employee_ID%></p>
+                             </div>
+                            </div>
+                            <div class="col-lg-3">
+                             <div class="form-group">
+                                 <label for="admin id" class="text-primary" style="font-weight: 500;">Branch Manager</label>
+                                 <p></p>
+                             </div>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                   <div class="row">
                    </div>
                 </form>
               </div>  

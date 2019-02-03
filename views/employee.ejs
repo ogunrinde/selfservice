@@ -114,7 +114,7 @@
               <div class="row">
                 <% for (let i = 0; i < all_staff.length; i++) { %>
                 <div class="col-lg-3 col-sm-6">
-                        <div class="card hovercard">
+                        <div class="card hovercard employee_ID" id = 'employee_ID<%=i%>' data = "<%=all_staff[i]._id%>">
                             <div class="cardheader">
             
                             </div>
@@ -129,11 +129,11 @@
                                 <div class="desc"><%=all_staff[i].department%></div>
                             </div>
                             <div class="bottom">
-                                <a class="btn btn-primary btn-twitter btn-sm" href="/get_staff_appraisals/<%=all_staff[i]._id%>">
+                                <a class="btn btn-primary btn-twitter btn-sm" href="/staff_appraisal">
                                     <i class="fa-file fa"></i>
                                 </a>
                                 <a class="btn btn-danger btn-sm" rel="publisher"
-                                    href="/get_staff_leave/<%=all_staff[i]._id%>">
+                                   href="https://plus.google.com/+ahmshahnuralam">
                                     <i class="fa fa-walking"></i>
                                 </a>
                                 <!--a class="btn btn-primary btn-sm" rel="publisher"
@@ -228,6 +228,12 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script type="text/javascript" src = ""></script>
   <script type="text/javascript">
+     $('.employee_ID').on('click', function(e){
+       //alert("asdfgh");
+      let id = $("#"+this.id+"").attr('data');
+      //let code = atobid
+      window.location.href = "/each_details/"+id+"";
+     });
   </script>
 </body>
 
