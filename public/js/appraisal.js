@@ -65,7 +65,8 @@ $(function(){
        }
      });
   });
-  $("#manager_btn").on('click', function(){
+  $("#manager_btn").on('click', function(e){
+    e.preventDefault();
     if(justification.length === 0) return false;
     if(remark.length === 0) return false;
     let year = $('#app_year').val();

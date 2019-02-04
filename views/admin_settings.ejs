@@ -68,14 +68,14 @@
                             <% } %>
                             <ul class="list-group lgroup" style="margin-top: 20px;">
                                 <% if (company_data.department.length > 0) { %>
-                                    <li class="list-group-item bg-success" style = "text-transform: capitalize">Branches
-                                      <span class="remove">x</span>
+                                    <li class="list-group-item bg-success" style = "text-transform: capitalize;color:#fff">Branches
+                                      
                                     </li>
                                 <% } %>
                                 <% for (r = 0; r < company_data.branch.length; r++) { %>
                                   <% if (company_data.branch[r] !== '') { %>
                                     <li class="list-group-item" style = "text-transform: capitalize"><%=company_data.department[r]%>
-                                      <span class="remove">x</span>
+                                      
                                     </li>
                                 <% } } %>    
                                </ul>
@@ -111,14 +111,14 @@
                        <div class="col-lg-4">
                             <ul class="list-group dgroup">
                                 <% if (company_data.department.length > 0) { %>
-                                  <li class="list-group-item bg-primary" style = "text-transform: capitalize">Departments
-                                    <span class="remove">x</span>
+                                  <li class="list-group-item bg-primary" style = "text-transform: capitalize;color:#fff;">Departments
+                                    
                                   </li>
                                 <% } %>
                                     <% for (r = 0; r < company_data.department.length; r++) { %>
                                       <% if (company_data.department[r] !== '') { %>
                                         <li class="list-group-item" style = "text-transform: capitalize"><%=company_data.department[r]%>
-                                          <span class="remove">x</span>
+                                          
                                         </li>
                                     <% } } %>    
                             </ul>

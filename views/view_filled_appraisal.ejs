@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>MultiChase Dashboard</title>
+  <title>MultiChase</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,6 +19,7 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
    <link rel="stylesheet" type="text/css" href="css/appraisal.css">
+  <link rel="stylesheet" type="text/css" href="css/settings.css">
 
 </head>
 
@@ -49,7 +50,7 @@
                       <% for(var i=0; i < appraisal.length; i++) { %>   
                         <div class="eachslide">
                           <form>
-                          <div class="counter" style="text-align: center;">
+                          <div class="counter" style="text-align: center;width: 100%;">
                               <div class="" style="width: 60px;height: 60px;border-radius: 30px;padding-top: 20px;color:#fff;background-color: #FC5135"><span><%= i + 1%>/<%= appraisal.length %></span></div>
                           </div>
                           <div class="text_header" style="margin-bottom: 15px;">
@@ -111,6 +112,49 @@
                           <div>
                           </div>  
                           </div>
+                          <% if (lManager_justification.length > 0 || lManager_remarks.length > 0) { %>
+                           <div>            
+                          <div style="margin-top: 20px;">
+                             <p class="text-primary" style="font-weight: 800;">LINE MANAGER'S REMARK</p>
+                          </div><hr style="margin-top: -10px;"/>
+                          <div class="text-center">
+                            <% if (lManager_remarks[i] == 'a') { %>
+                            <button type="button" class="grade btn btn-success">A</button>
+                            <% } else {%>
+                            <button type="button" class="grade btn btn-outline-secondary">A</button>
+                            <% } %>
+                            <% if (lManager_remarks[i] == 'b') { %>
+                                <button type="button" class="grade btn btn-success">B</button>
+                                <% } else {%>
+                                <button type="button" class="grade btn btn-outline-secondary">B</button>
+                            <% } %>
+                            <% if (lManager_remarks[i] == 'c') { %>
+                                <button type="button" class="grade btn btn-primary">C</button>
+                                <% } else {%>
+                                <button type="button" class="grade btn btn-outline-secondary">C</button>
+                            <% } %>
+                            <% if (lManager_remarks[i] == 'd') { %>
+                                <button type="button" class="grade btn btn-danger">D</button>
+                                <% } else {%>
+                                <button type="button" class="grade btn btn-outline-secondary">D</button>
+                            <% } %>
+                            <% if (lManager_remarks[i] == 'e') { %>
+                                <button type="button" class="grade btn btn-danger">E</button>
+                                <% } else {%>
+                                <button type="button" class="grade btn btn-outline-secondary">E</button>
+                            <% } %>
+                          </div>
+                          <div style="margin-top: 20px;">
+                            <p style="font-weight: 800;">LINE MANAGER'S JUSTIFICATION</p>
+                            </div><hr style="margin-top: -10px;"/>
+                            <div class="text-center">
+                              <textarea name="appraisee_justification" value="" class="form-control justify" id="justify<%=i%>" rows="5"><%=lManager_justification[i]%></textarea>
+                              <!--div style="text-align: justify;"><%= appraisal[i].KPI_PARAMETER %></div-->
+                            </div>
+                          <div>
+                          </div>  
+                          </div>
+                          <% } %>
                        <% } %> 
                        <% if (i == 0) { %>
                         <div class="form-group">
@@ -164,15 +208,38 @@
                     </div>
                     <div >
                       
-                    </div> 
-                  <div>
-                  Content 3
-                    <a href="#" class="prev">Show Content 1 .. not working!!</a>
-                  </div>            
+                    </div>           
                 </div>
             </div>
           </div>
-
+          <% if(lManager_justification.length > 0)  { %>
+          <div class="card border-0 shadow mb-4">
+             <div style="padding: 7px;">
+                   <div>Respond to Line Manager's remark and Justification</div><hr/>
+                   <input type="text" name="appraisal_id" value ="<%=appraisal._id%>" style="display: none;">
+                   <input type="text" name="position" value ="<%=pos%>" style="display: none;">
+                   <div class="response" style ="padding: 7px;">
+                       <form class="form" method = "post" action = "/responsetoManager">
+                        <label class="btnwrapper"><span class="label">Accept</span>
+                                <input type="radio" name="response" value="accept">
+                                <span class="checkmark"></span>
+                        </label>
+                        <label class="btnwrapper"><span class="label">Reject</span>
+                                <input type="radio" name="response" value="reject">
+                                <span class="checkmark"></span>
+                        </label>
+                       <label class="btnwrapper"><span class="label">Pending</span>
+                          <input type="radio" name="response" value="pending">
+                          <span class="checkmark"></span>
+                       </label>
+                        <div class="response_btn" style="">
+                           <input type="submit" value="Update" class="btn btn-primary"/>    
+                        </div>
+                    </form>
+                   </div>
+              </div>  
+          </div>
+          <% }%>
 
 
 

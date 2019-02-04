@@ -42,16 +42,11 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-                <% if (appraisal_remove.length > 0 ) { %>
+                <% if (appraisal.length === 0 ) { %>
                     <div class="alert alert-light" role="alert">
-                        <%=appraisal_remove%>
+                        No appraisal to re-assign yet.
                     </div>
-                  <% } %>
-                  <% if (template_data.length === 0 ) { %>
-                    <div class="alert alert-light" role="alert">
-                       No appraisal dropped yet
-                    </div>
-                  <% } %>
+                    <% } %>
           <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">
@@ -104,17 +99,20 @@
           </div-->
           <!-- Area Chart -->
           <div class="listwrapper">
-          <ul class="list-group">
-              <% for(var i=0; i < template_data.length; i++) { %>
-              <a class="getdata" id = "getdata<%=i%>" year = "<%= template_data[i].year %>">  
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                  
-                  <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= template_data[i].period %> (<%= template_data[i].year %>)</span>
-                
-                <span class="drop badge badge-pill" id = "badge<%=template_data[i]._id%>" data = "<%=template_data[i]._id%>" style="font-size: 16px;color:red">x</span>
-              </li></a>
+          <div class="list-group">
+          <% for(var i=0; i < appraisal.length; i++) { %>
+             <% for(var r = 0; r < appraisal[i].replies.length; r++) { %>
+              <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">appraisal[i].replies[r].staff_id</h5>
+                  <small><%=appraisal.year%></small>
+                </div>
+                <small><span> <i class="fa fa-file" style="margin-right: 7px;"></i><%=appraisal.period%></span></small>
+                <small class="mb-1">Re-assign to HR</small>
+              </a>
               <% } %>
-            </ul>
+          <% } %>
+          </div>    
           </div>
           <form method="post" action="/view_appraisal" style="display: none" >
              <input type="text" name = 'year' id = 'addyear'/>
@@ -173,24 +171,6 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>

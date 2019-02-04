@@ -42,11 +42,16 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-                <% if (appraisal_suspend.length === 0 ) { %>
+                <% if (appraisal_suspend.length > 0 ) { %>
                     <div class="alert alert-light" role="alert">
                         <%=appraisal_suspend%>
                     </div>
                     <% } %>
+                    <% if (template_data.length === 0 ) { %>
+                    <div class="alert alert-light" role="alert">
+                       No appraisal suspended yet
+                    </div>
+                  <% } %>
           <!--div class="flex_container">
             <div class="card bg-success">
               <div class="eachcard">

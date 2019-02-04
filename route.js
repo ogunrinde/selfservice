@@ -69,7 +69,7 @@ router.get("/notify", isLoggedIn, function(req,res){
           });
           var mailOptions = {
             from: 'ogunrindeomotayo@gmail.com',
-            to: 'omotayoogunrinde@gmail.com',
+            to: ''+req.user.lManager+'',
             subject: 'Leave Request',
             html: '<html>'+head+' '+body+'</html>'
           };
@@ -85,7 +85,7 @@ router.get("/notify", isLoggedIn, function(req,res){
 });
 router.get("/view_leave", isLoggedIn, function(req,res){
    Leave.find({admin_id : req.user._id}, function(err, leave){
-     res.render("view_leave", {user: req.user, leave : leave});
+     res.render("view_leave", {user: req.user, leave : leave, title  : 'View Leave'});
    });
 });
 router.post("/update_leave_request",isLoggedIn, function(req,res){
@@ -116,12 +116,12 @@ router.get("/dashboard", isLoggedIn, function(req,res){
           res.redirect("/settings");
         });
     }
-    else res.render('dashboard', {user:req.user});
+    else res.render('dashboard', {user:req.user, title  : 'Dashboard'});
 });
 router.get("/appraisal", isLoggedIn, function(req,res){
     Template.find({admin_id: req.user._id}, function(err, template){
        console.log(template);
-       res.render("appraisal", {template_data : template, user: req.user});
+       res.render("appraisal", {template_data : template, user: req.user, title  : 'Appraisal'});
     });
 });
 router.get("/drop_appraisal/:id", function(req,res){
@@ -141,26 +141,26 @@ router.get("/suspend_appraisal/:id", function(req,res){
 router.get("/suspend", isLoggedIn, function(req,res){
     Template.find({admin_id: req.user._id}, function(err, template){
        console.log(template);
-       res.render("suspend", {template_data : template, user: req.user, appraisal_suspend : req.flash('appraisal_suspend')});
+       res.render("suspend", {template_data : template, user: req.user, appraisal_suspend : req.flash('appraisal_suspend'), title  : 'Suspend Appraisal'});
     });
 });
 router.get("/drop", isLoggedIn, function(req,res){
     Template.find({admin_id: req.user._id}, function(err, template){
        console.log(template);
-       res.render("drop", {template_data : template, user: req.user, appraisal_remove : req.flash('appraisal_remove')});
+       res.render("drop", {template_data : template, user: req.user, appraisal_remove : req.flash('appraisal_remove'), title  : 'Drop Appraisal'});
     });
 });
 router.get("/query", function(req,res){
     User.find({admin_id : req.user._id}, function(err,staffs){
         console.log(staffs);
-        res.render('query', {user: req.user, all_staff : staffs});
+        res.render('query', {user: req.user, all_staff : staffs, message : req.flash('message'), title  : 'Query System'});
     });
 });
 router.get("/employee", function(req,res){
     console.log(req.user._id);
     User.find({admin_id : req.user._id}, function(err,staffs){
         console.log(staffs);
-        res.render('employee', {user: req.user, all_staff : staffs});
+        res.render('employee', {user: req.user, all_staff : staffs, title  : 'Employee'});
     });
 });
 router.get("/each_details/:id", function(req,res){
@@ -170,24 +170,22 @@ router.get("/each_details/:id", function(req,res){
     res.redirect('/employee_details');
 });
 router.get("/get_staff_appraisals/:id", function(req,res){
-    let id = req.params.id;
-    console.log(id);
-    req.flash('id', id);
+    req.session.param_id = req.params.id;
     res.redirect('/each_staff_appraisals');
 });
-router.get("/each_staff_appraisals", function(req,res){
-    let id =  req.flash('id')[0];
-    //console.log(id);
+router.get("/each_staff_appraisals", isLoggedIn, function(req,res){
+    let id =  req.session.param_id;
+    console.log(id);
     let staff_template = [];
     let l_seen = false;
     let b_seen =false;
     let staff_id;
     //console.log(req.user);
     Template.find({admin_id : req.user._id}, function(err, temp){
-        console.log(temp);
+        //console.log(temp);
         temp.forEach(function(value){
             value.replies.forEach(function(staff){
-                //console.log(staff.staff_id,id);
+                console.log(staff);
                 if(staff.staff_id.toString() === id.toString()){
                     staff_template.push(value);
                     staff_id = staff.staff_id.toString();
@@ -197,11 +195,16 @@ router.get("/each_staff_appraisals", function(req,res){
                 }
             });
         });
+         if(staff_id == undefined){
+               req.flash('message',"Staff hasn't filled any appraisal");
+               res.redirect('/query');
+        }
+        //console.log(staff_id);
         User.findOne({_id : staff_id}, function(err,user_details){
           console.log(user_details);
-          res.render('each_staff_appraisals', {staff:user_details,  user:req.user, template_data : staff_template, b_seen :b_seen, l_seen :l_seen});
+          res.render('each_staff_appraisals', {staff : user_details,  user:req.user, template_data : staff_template, b_seen :b_seen, l_seen :l_seen});
         });
-        console.log(staff_template);
+        //console.log(staff_template);
         //console.log(staff_template[0].length);
         //res.send('oka');
     });
@@ -223,7 +226,7 @@ router.get("/employee_details", function(req,res){
     console.log(id);
     User.findOne({_id : id}, function(err, user){
        
-       res.render('employee_details', {user :req.user, this_user : user});
+       res.render('employee_details', {user :req.user, this_user : user,title  : 'Employee Details'});
     });
 });
 router.get("/view_request", function(req,res){
@@ -254,7 +257,7 @@ router.post("/settings", isLoggedIn, function(req,res){
     res.render("settings", { user : req.user});
 });
 router.get("/settings", isLoggedIn, function(req,res){
-    res.render("settings", { user : req.user, message: req.flash('UploadFileMessage')});
+    res.render("settings", { user : req.user, message: req.flash('UploadFileMessage'), title  : 'Settings'});
 });
 router.get("/view_staff/:id", isLoggedIn, function(req,res){
     let id = req.params.id;
@@ -269,7 +272,7 @@ router.get("/view_staff_leave", isLoggedIn, function(req,res){
     let id = req.flash('id')[0];
     Leave.findOne({staff_id :  id}, function(err,leave_data){
         if(err) throw err; 
-        res.render("view_staff_leave", { user : req.user, leave_data :leave_data});
+        res.render("view_staff_leave", { user : req.user, leave_data :leave_data, title  : 'View Staff Leave'});
     });
 });
 router.get("/staff_leave_request", isLoggedIn, function(req,res){
@@ -293,7 +296,7 @@ router.get("/staff_leave_request", isLoggedIn, function(req,res){
             //console.log(month[parseInt(to_leave.date_created.split('-')[1])]);
             date_created.push({day_created : day_created, month_created:month_created, year_created:year_created});
         });
-        res.render("staff_leave_request", { user : req.user, leave : leave, date_created:date_created});
+        res.render("staff_leave_request", { user : req.user, leave : leave, date_created:date_created, title  : 'Staff Leave Request'});
         console.log(date_created);
         //res.render("staff_view_request", {date_created:date_created, all_leaves : leave, s_date : s_date, e_date : e_date, user : req.user});
     });
@@ -312,9 +315,9 @@ router.post("/view_appraisal", isLoggedIn, function(req,res){
                     remarks = template.replies.remarks.split(";");
                 }
             }
-            res.render("view_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks});
+            res.render("view_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks, title  : 'View Appraisal'});
         }else{
-            res.render("view_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user});
+            res.render("view_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user,title  : 'View Appraisal'});
         }
     });
 });
@@ -327,14 +330,14 @@ router.get("/admin_settings", isLoggedIn, function(req,res){
             dept = data.department.join(";");
             appraisal = data.appraisal_flow.join(";");
             branch = data.branch.join(";");
-            res.render('admin_settings', { branch : branch, user: req.user, dept : dept, appraisal : appraisal, company_data: data, message: req.flash('UpdateMessage')});
+            res.render('admin_settings', { branch : branch, user: req.user, dept : dept, appraisal : appraisal, company_data: data, message: req.flash('UpdateMessage'), title  : 'Admin Settings'});
         }
         if(!data){
             dept = '';
             appraisal = '';
             branch = '';
             company_data = {company_name:null,logo:null, department : [], appraisal_flow:[], branch : []};
-            res.render('admin_settings', {user: req.user, dept : dept, branch : branch,appraisal : appraisal, company_data:company_data, department : [], appraisal: [], message: req.flash('UpdateMessage') });
+            res.render('admin_settings', {user: req.user, dept : dept, branch : branch,appraisal : appraisal, company_data:company_data, department : [], appraisal: [], message: req.flash('UpdateMessage'), title : 'Admin Settings' });
         }
     });
 });
@@ -348,11 +351,12 @@ router.get("/staff_settings", isLoggedIn, function(req,res){
             data.logo = details.logo;
             data.company_name = details.company_name;
             data.department = details.department;
+            data.branch = details.branch;
             User.findOne({_id : details.admin_id }, function(err, admin_data){
                 if(err) throw err;
                 data.admin_email  = admin_data.email;
                 data.admin_id = admin_data._id;
-                res.render('staff_settings', {user : req.user, data : data, message : req.flash('UpdateMessage')});
+                res.render('staff_settings', {user : req.user, data : data, message : req.flash('UpdateMessage'), title  : 'Staff Settings'});
             });
            }
         });
@@ -367,6 +371,7 @@ router.post("/staff_settings", isLoggedIn, function(req,res){
     req.user.admin_id =  req.body.user_admin_id != '' ? req.body.user_admin_id : req.user.admin_id;
     req.user.role = req.body.user_role != '' ? req.body.user_role : req.user.role;
     req.user.department = req.body.user_department != '' ? req.body.user_department : req.user.department;
+    req.user.branch = req.body.user_branch != '' ? req.body.user_branch : req.user.branch;
     req.user.employee_ID = req.body.user_employee_ID != '' ? req.body.user_employee_ID : req.user.employee_ID;
     req.user.bManager = req.body.user_bManager != '' ? req.body.user_bManager : req.user.bManager;
     req.user.lManager = req.body.user_lManager != '' ? req.body.user_lManager : req.user.lManager;
@@ -390,13 +395,29 @@ router.post("/staff_settings", isLoggedIn, function(req,res){
                   res.redirect('/account_setup');
                 }
                 req.flash('UpdateMessage','Your profile has been updated');
-                res.redirect('/staff_settings');
+                res.redirect('/dashboard');
             });
         }else{
                 req.flash('UpdateMessage','Your profile has been updated');
-                res.redirect('/staff_settings');
+                res.redirect('/dashboard');
         }
         
+    });
+});
+router.get('/reassign', function(req,res){
+  let appraisal = [];
+  Template.find({admin_id: req.user._id}, function(err, template){
+          template.forEach(function(appraisal){
+             for (let r = 0; r < appraisal.replies.length; r++){
+                if(appraisal.replies[r].staff_response_to_lManager  == 'reject') {
+                     User.findOne({_id:appraisalreplies[r].staff_id}, function(err, staff){
+                        appraisal.replies[r].staff_id = staff.name;
+                        appraisal.push(appraisal);
+                     });
+                }
+            }
+          });    
+        res.render("reassign", {user : req.user, appraisal : appraisal, title  : 'Re-assign Apprisal'});
     });
 });
 router.post("/advanced_settings", isLoggedIn, updateUser, function(req,res){
@@ -453,13 +474,13 @@ router.post("/advanced_settings", isLoggedIn, updateUser, function(req,res){
         if(err) throw err;
         if(req.files.file === undefined) {
             req.flash('UpdateMessage','Company details noted');
-            res.redirect('/admin_settings');
+            res.redirect('/dashboard');
             return false;
         }
         req.files.file.mv(__dirname + '/public/images/'+rename+'.'+ext+'',function(err){
             if(err) throw err;
             req.flash('UpdateMessage','Company details noted');
-            res.redirect('/admin_settings');
+            res.redirect('/dashboard');
         });
       });
       }
@@ -512,7 +533,6 @@ router.get('/manager_view/:id', function(req,res){
     //receive staff_id and appraisal_id
     req.session.param = atob(req.params.id);
     res.redirect('/appraisal_manager_view');
-    console.log(req.flash('param'));
  });
  /*
  router.get('/appraisal_manager_view', function(req,res){
@@ -631,6 +651,18 @@ router.post('/process_manager_remark', function(req,res){
       });
    });
   });
+router.post('/responsetoManager',isLoggedIn, function(req,res){
+    let position = parseInt(req.body.position);
+    Template.findOne({_id : req.body.appraisal_id }, function(err, template){
+        template.replies[position].staff_response_to_lManager = req.body.response;
+        Template.findByIdAndUpdate(template._id,template, {new: true}, function(err, updated){
+          res.redirect('/response_to_manager');
+        });
+    });
+});
+router.post('/response_to_manager',isLoggedIn, function(req,res){
+    res.render('response_to_manager', {message : "Your response to your line Manager's remark and comment is noted and will process"});
+})
 router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
     let file = req.files.file; 
     console.log(file.name);
@@ -681,9 +713,15 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
               pass: 'christianlife'
             }
           });
-          var mailOptions = {
+          let email= '';
+          User.find({admin_id : req.user._id}, function(err,users){
+            users.forEach(function(user){
+              if(email != '') ',';
+               email += user.email;
+            });
+            var mailOptions = {
             from: 'ogunrindeomotayo@gmail.com',
-            to: 'omotayoogunrinde@gmail.com',
+            to: ''+email+'',
             subject: 'Appraisal Review',
             html: '<html>'+head+''+body+'</html>'
           };
@@ -697,13 +735,29 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
               //res.send(info.response);
             }
           });
-         
+          });
       });
     });
 });
 router.get('/staff_appraisal', isLoggedIn, function(req,res){
-    Template.find({admin_id : req.user.admin_id}, function(err,appraisal){
-        res.render("staff_appraisal", { user: req.user, appraisal : appraisal});
+    let appraisal = [];
+    let q = 0;
+    let msg;
+    Template.find({admin_id : req.user.admin_id}, function(err,appra){
+        appra.forEach(function(app){
+            console.log(app);
+            for(let r = 0; r < app.replies.length; r++){
+               if(app.replies[r].staff_id != req.user._id) {
+                q++;
+                console.log(q);
+                //q++;
+                }
+            }
+             if(app.replies.length == 0) appraisal.push(app);
+            else if(q < app.replies.length) appraisal.push(app);
+            else if(q == app.replies.length) msg = 'The administrator is yet to upload new appraisal';
+        });
+        res.render("staff_appraisal", { user: req.user, appraisal : appraisal, msg : msg});
     }); 
 });
 router.get("/create_appraisal", isLoggedIn, function(req,res){
@@ -795,10 +849,12 @@ router.get('/val', function(req,res){
   console.log(j);
 });
 router.get('/femi', function(req,res){
-    let e = "5c54785cdbc7c633e890cc80;5c55fc4b0b40480e08b6a720;lManager;james@gmail.com;temmytp22005@gmail.com";
-    let convert = btoa(e);
-    //let f = atob('NWM1NDc4NWNkYmM3YzYzM2U4OTBjYzgwOzVjNTVkYTA5NjJhYWI1M2M4ODUzZTBlMTtsTWFuYWdlcjtqYW1lc0BnbWFpbC5jb20=');
 
+    let e = "5c573909e3d4dc4754ff9e6e;5c5744aa3df7ce43c0f9e5e1;lManager;james@gmail.com;temmytp22005@gmail.com";
+    let convert = btoa(e);
+
+    //let f = atob('NWM1NDc4NWNkYmM3YzYzM2U4OTBjYzgwOzVjNTVkYTA5NjJhYWI1M2M4ODUzZTBlMTtsTWFuYWdlcjtqYW1lc0BnbWFpbC5jb20=');
+    console.log(atob(convert));
     res.send(convert);
 })
 router.post('/process_data', function(req,res){
@@ -827,7 +883,7 @@ router.post('/process_data', function(req,res){
         //console.log(template);
         let remarks = req.body.remark.join(';');
         let justifications = req.body.justification.join(';');
-        let data = {staff_id : req.user._id, remarks : remarks, justifications:justifications,lManager_remarks : "", lManager_justification : "", bManager_remarks : "",  bManager_justification : ""};
+        let data = {staff_id : req.user._id, remarks : remarks, justifications:justifications,lManager_remarks : "", lManager_justification : "", bManager_remarks : "",  bManager_justification : "", staff_response_to_lManager :""};
         template.replies.push(data);
         //console.log(template);
         Template.findByIdAndUpdate(template._id,template, {new: true}, function(err, updated){
@@ -869,19 +925,33 @@ router.post('/view_filled_appraisal',function(req,res){
         if(req.user.category == 'staff' || req.user.category == 'admin'){
             let justifications = [];
             let remarks = [];
+            let lManager_remarks = [];
+            let lManager_justification = [];
+            let bManager_remarks = [];
+            let bManager_justification = [];
+            let pos= 0;
             for (let r = 0; r < template.replies.length; r++){
                 console.log(template.replies[r].staff_id);
                 if(template.replies[r].staff_id.toString()  == set_id.toString()) {
                     console.log(template.replies[r].justifications);
+                    pos = r;
                     justifications = template.replies[r].justifications.split(";");
                     remarks = template.replies[r].remarks.split(";");
+                    if(template.replies[r].lManager_justification !== '') 
+                        lManager_justification = template.replies[r].lManager_justification.split(";");
+                    if(template.replies[r].lManager_remarks !== '')
+                        lManager_remarks = template.replies[r].lManager_remarks.split(";");
+                    if(template.replies[r].bManager_justification !== '') 
+                        bManager_justification = template.replies[r].bManager_justification.split(";");
+                    if(template.replies[r].bManager_remarks !== '')
+                        bManager_remarks = template.replies[r].bManager_remarks.split(";");
                 }
             }
             console.log(justifications,remarks);
-            res.render("view_filled_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks});
+            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks });
         }else{
-            console.log('qqqqqqqqqqqqqqqqq');
-            res.render("view_filled_appraisal", {appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user});
+            //console.log('qqqqqqqqqqqqqqqqq');
+            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks});
         }
     });
     //res.render('view_filled_appraisal');
@@ -913,7 +983,6 @@ router.post('/view_filled_appraisal',function(req,res){
 router.get('/each_request/:id', isLoggedIn,function(req,res){
   req.flash('id',req.params.id);
   res.redirect('/each_leave_request');
-
 });
 router.get('/each_leave_request', isLoggedIn,function(req,res){
     let id = req.flash('id')[0].toString();

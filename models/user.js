@@ -5,6 +5,7 @@ var userSchema = new mongoose.Schema({
     name: {type : String},
     role: { type : String},
     department: {type : String},
+    branch: {type : String},
     employee_ID : {type : String},
     password : { type: String},
     admin_id: { type : String},

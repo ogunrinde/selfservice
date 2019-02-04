@@ -21,7 +21,9 @@
   .submit_btn {
     margin-left: calc(50% - 100px);
   }
-
+  .response_btn {
+    margin-left: calc(50% - 100px);
+  }
   /* Hide the browser's default radio button */
   .btnwrapper input {
     position: absolute;
@@ -80,6 +82,9 @@
   }
   .remove::after {
       clear: both;
+  }
+  .form {
+      margin-top: 0%;
   }
 
   

@@ -108,8 +108,15 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
+          <div>
+                <% if (message.length > 0) { %>
+                  <div class="alert" style="background-color:#fff; color:green" role="alert">
+                          <%= message %>
+                  </div>
+              <% } %>
+            </div>
           <!-- Area Chart -->
-          <div class="card border-0 shadow mb-4" style="padding: 1%;">
+          <div class="card border-0 shadow mb-4" style="padding: 1%;background-color: #fff;">
             <div style="margin-top: 20px;">
               <div class="row">
                 <% for (let i = 0; i < all_staff.length; i++) { %>

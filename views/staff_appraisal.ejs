@@ -107,9 +107,14 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-            <% if (appraisal.length === 0 ) { %>
+            <% if (appraisal.length === 0 && msg === undefined) { %>
             <div class="alert alert-light" role="alert">
                 No Appraisal Uploaded yet...
+            </div>
+            <% } %>
+            <% if (appraisal.length === 0 && msg !== undefined) { %>
+            <div class="alert alert-light" role="alert">
+               <%=msg%>
             </div>
             <% } %>
           <!--div class="flex_container">
