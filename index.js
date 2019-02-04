@@ -8,7 +8,7 @@ var passport = require('passport');
 var flash = require('express-flash');
 var fileUpload = require('express-fileupload');
 var Mongostore = require('connect-mongo')(session);
-
+var port = process.env.PORT || 8080;
 var app = express();
 mongoose.connect('mongodb://localhost:27017/passportlocal', { useNewUrlParser: true });
 
@@ -32,6 +32,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/',route);
 
-app.listen(3000, function(){
-    console.log('Listening on port  3000');
+app.listen(port, function(){
+    console.log('Listening on port  8000');
 })
