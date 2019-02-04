@@ -7,6 +7,7 @@ var passport = require('passport');
 var Company = require('./models/company');
 var nodemailer = require('nodemailer');
 var Leave = require('./models/leave');
+var Notifications = require('./models/notifications');
 var atob = require('atob');
 var btoa = require('btoa');
 router.get('/', function (req,res){
@@ -16,7 +17,7 @@ router.get("/register", function(req,res){
     res.render("register", {message : req.flash('RegisterMessage')});
 });
 router.get("/leave_request", function(req,res){
-    res.render("leave_request", {user: req.user});
+    res.render("leave_request", {user: req.user, title : 'Leave Request'});
 });
 router.post("/leave_request", isLoggedIn, function(req,res){
     leave =  new Leave();
@@ -78,7 +79,7 @@ router.get("/notify", isLoggedIn, function(req,res){
               console.log(error);
             } else {
               console.log('Email sent: ' + info.response);
-              res.render("notify", {user: req.user, message: req.flash('notify')});
+              res.render("notify", {user: req.user, message: req.flash('notify'), title : 'Notifications'});
               //res.send(info.response);
             }
           });
@@ -87,6 +88,12 @@ router.get("/view_leave", isLoggedIn, function(req,res){
    Leave.find({admin_id : req.user._id}, function(err, leave){
      res.render("view_leave", {user: req.user, leave : leave, title  : 'View Leave'});
    });
+});
+router.get("/notifications", isLoggedIn, function(req,res){
+    console.log(req.user);
+   //Notifications.find({staff_id : req.user._id}, function(req,notification){
+      res.render("notifications", {user: req.user, title  : 'Notifications'});
+   //}); 
 });
 router.post("/update_leave_request",isLoggedIn, function(req,res){
     let status = req.body.category;
@@ -250,11 +257,11 @@ router.get("/view_request", function(req,res){
             console.log(to_leave);
             //date_created.push({day_created : day_created, month_created:month_created, year_created:year_created});
         }
-        res.render('view_request', {user :req.user, leave_data : to_leave, date : date});
+        res.render('view_request', {user :req.user, leave_data : to_leave, date : date, title : 'View Request'});
     });
 });
 router.post("/settings", isLoggedIn, function(req,res){
-    res.render("settings", { user : req.user});
+    res.render("settings", { user : req.user, title : 'Settings'});
 });
 router.get("/settings", isLoggedIn, function(req,res){
     res.render("settings", { user : req.user, message: req.flash('UploadFileMessage'), title  : 'Settings'});
@@ -461,10 +468,10 @@ router.post("/advanced_settings", isLoggedIn, updateUser, function(req,res){
         company_data.company_name = req.body.company_name;
         company_data.department = dept.length > 0 ? dept : [];
         company_data.branch = branch.length > 0 ? branch : [];
-        company_data.logo = 'user_profile.png';
+        company_data.logo = 'upload.png';
         //company_data.appraisal_flow = appraisal.length > 0 ? appraisal : [];
-        if(req.files.file !== undefined){
-            ext = req.files.file.name.split('.')[1];
+        if(req.files.company_file !== undefined){
+            ext = req.files.company_file.name.split('.')[1];
             let accept = ['png','jpg', 'jpeg'];
             state = accept.includes(ext);
             rename = Math.floor(Math.random() * 1000000000);
@@ -472,12 +479,12 @@ router.post("/advanced_settings", isLoggedIn, updateUser, function(req,res){
         if(state == true) company_data.logo = rename+'.'+ext;
         company_data.save(function(err,company_info){
         if(err) throw err;
-        if(req.files.file === undefined) {
+        if(req.files.company_file === undefined) {
             req.flash('UpdateMessage','Company details noted');
             res.redirect('/dashboard');
             return false;
         }
-        req.files.file.mv(__dirname + '/public/images/'+rename+'.'+ext+'',function(err){
+        req.files.company_file.mv(__dirname + '/public/images/'+rename+'.'+ext+'',function(err){
             if(err) throw err;
             req.flash('UpdateMessage','Company details noted');
             res.redirect('/dashboard');
@@ -664,15 +671,28 @@ router.post('/response_to_manager',isLoggedIn, function(req,res){
     res.render('response_to_manager', {message : "Your response to your line Manager's remark and comment is noted and will process"});
 })
 router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
-    let file = req.files.file; 
-    console.log(file.name);
-    const ext = file.name.split('.')[1];
-    let accept = ['xlsx','csv'];
-    const state = accept.includes(ext);
+    if(req.body.year == undefined || req.body.year == ''){
+        req.flash('UploadfileMessage', 'Please select the appraisal year');
+        res.render("create_appraisal", {user:req.user, message : req.flash('UploadfileMessage'), title : "Create Appraisal"});
+        return false;
+    }
+    else if(req.body.period == undefined || req.body.period == ''){
+         req.flash('UploadfileMessage', 'Kindly select appraisal period');
+         res.render("create_appraisal", {user:req.user, message : req.flash('UploadfileMessage'), title : "Create Appraisal"});
+         return false;
+    }
+    let state = false;
+    if(req.files.file !== undefined){
+        let file = req.files.file; 
+        console.log(file.name);
+        const ext = file.name.split('.')[1];
+        let accept = ['xlsx','csv'];
+        state = accept.includes(ext);
+    }
     console.log(state);
     if(state === false){
         req.flash('UploadfileMessage','Please Upload Excel file Only');
-        res.render("create_appraisal", { message : req.flash('UploadFileMessage')});
+        res.render("create_appraisal", {user:req.user, message : req.flash('UploadfileMessage'), title : "Create Appraisal"});
         return false;
     }
     const rename = Math.floor(Math.random() * 1000000000);
@@ -761,7 +781,7 @@ router.get('/staff_appraisal', isLoggedIn, function(req,res){
     }); 
 });
 router.get("/create_appraisal", isLoggedIn, function(req,res){
-    res.render("create_appraisal", { user: req.user, message : req.flash('UploadfileMessage'), radio : req.user.category});
+    res.render("create_appraisal", { user: req.user, message : req.flash('UploadfileMessage'), radio : req.user.category, title : "Create Appraisal"});
 });
 router.post('/login', passport.authenticate('local.login', {
     successRedirect: '/dashboard',

@@ -60,15 +60,15 @@
                    <div class="row">
                        <div class="col-lg-4">
                            <% if (company_data.company_name === null)  {%>
-                           <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/upload.png" alt=""></div>
-                           <div style="text-align: center;">Upload Company Logo</div>
-                           <input type="file" name="file" id="file" style="display: none;">
+                           <div style="text-align: center;" id = "uploadimg_company"><img class="uploadimg" src="/images/upload.png" alt=""></div>
+                           <div style="text-align: center;" class="company_image">Upload Company Logo</div>
+                           <input type="file" name="company_file" id="file_company" style="display: none;">
                            <% } else { %>
                             <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=company_data.logo%>" alt=""></div>
                             <% } %>
                             <ul class="list-group lgroup" style="margin-top: 20px;">
                                 <% if (company_data.department.length > 0) { %>
-                                    <li class="list-group-item bg-success" style = "text-transform: capitalize;color:#fff">Branches
+                                    <li class="list-group-item bg-danger" style = "text-transform: capitalize;color:#fff">Branches
                                       
                                     </li>
                                 <% } %>
@@ -129,10 +129,10 @@
                     <div class="col-lg-4">
                       <% if (user.profile_image === 'user_profile.png')  {%>
                       <div style="text-align: center;" id = "uploadprofile"><img class="uploadimg" src="/images/user_profile.png" alt=""></div>
-                      <div style="text-align: center;">Upload Admin Image</div>
+                      <div style="text-align: center;" id ='admin_profile'>Upload Admin Image</div>
                       <input type="file" name="profile" id="profile" style="display: none;">
                       <% } else { %>
-                       <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=user.profile_image%>" alt=""></div>
+                       <div style="text-align: center;" id = "uploadimgprofile"><img class="uploadimg" src="/images/<%=user.profile_image%>" alt=""></div>
                        <% } %>
                   </div>
                   <div class="col-lg-4">
@@ -297,8 +297,59 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/chart-area-demo.js"></script>
-  <script type="text/javascript" src = "js/appraisal.js"></script>
-  <script type="text/javascript" src = "js/timeline.js"></script>
+  <!--script type="text/javascript" src = "js/appraisal.js"></script-->
+  <script type="text/javascript">
+     $(function(){
+         $('#uploadimg_company').on('click', function(){
+           $('#file_company').trigger('click');
+         });
+         $('#file_company').on('change', function(){
+           $('.company_image').text('Company logo added');
+         });
+         $('#uploadprofile').on('click', function(){
+           $('#profile').trigger('click');
+         });
+         $('#profile').on('change', function(){
+           $('#admin_profile').text('Profile logo added');
+         });
+           $("#AddDept").on("click", function(e){
+            e.preventDefault();
+            let rand = Math.random() * 9999999999;
+            let val = $("#company_dept").val().toLowerCase();
+            if(val == "") return false; 
+            let list = $("#dept_list").val();
+            if(list == ''){
+              $("#dept_list").val(val);
+            }else {
+              $("#dept_list").val(list+";"+val);
+            }
+            //alert($("#dept_list").val());
+            $('.dgroup').append('<li class="list-group-item" style = "text-transform: capitalize">'+val+'</li>');
+            $("#company_dept").val('');
+            //alert($('.dgroup > li').length);
+            if($('.dgroup > li').length ==  1) 
+              $('.dgroup').prepend('<li class="list-group-item bg-primary" style ="color:#fff;">Departments</li>');
+          });
+          $("#AddBranch").on("click", function(e){
+            e.preventDefault();
+            let rand = Math.random() * 9999999999;
+            let val = $("#company_branch").val().toLowerCase();
+            if(val == "") return false; 
+            let list = $("#branch").val();
+            if(list == ''){
+              $("#branch").val(val);
+            }else {
+              $("#branch").val(list+";"+val);
+            }
+            //alert($("#dept_list").val());
+            $('.head_branch').text('BRANCH');
+            $('.lgroup').append('<li class="list-group-item" style = "text-transform: capitalize">'+val+'</li>');
+            $("#company_branch").val('');
+            if($('.lgroup > li').length ==  1) 
+              $('.lgroup').prepend('<li class="list-group-item bg-danger" style ="color:#fff;">Branches</li>');
+          });
+     });
+  </script>
 </body>
 
 </html>

@@ -182,8 +182,12 @@ $('.getleave').on('click', function(e){
     if($('.lgroup > li').length ==  1) 
       $('.lgroup').prepend('<li class="list-group-item bg-danger" style ="color:#fff;">Branches</li>');
   });
-  $('#uploadimg').on('click', function(e){
-     $("#file").trigger('click');
+  /*$('#uploadimg').on('click', function(e){
+     $("#uploadimg_company").trigger('click');
+  });*/
+  $('#uploadimg_company').on('click', function(){
+    alert("am");
+      $('#file_company').trigger('click');
   });
   $('#uploadprofile').on('click', function(e){
     $("#profile").trigger('click');

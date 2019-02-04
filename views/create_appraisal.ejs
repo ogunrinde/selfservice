@@ -129,28 +129,41 @@
                             <div class="form-group">
                               <label for = "staff">APPRAISAL PERIOD</label>
                               <select name = "period" class="form-control">
+                                <option value="">select period</option>
                                 <option value="JAN-DEC">JAN-DEC</option>
                                 <option value="FEB-JAN">FEB-JAN</option>
                                 <option value="MAR-FEB">MAR-FEB</option>
                                 <option value="APR-MAR">APR-MAR</option>
                                 <option value="MAY-APR">MAY-APR</option>
                                 <option value="JUN-MAY">JUN-MAY</option>
+                                <option value="JAN-DEC">JUL-JUN</option>
+                                <option value="FEB-JAN">AUG-MAY</option>
+                                <option value="MAR-FEB">SEP-APR</option>
+                                <option value="APR-MAR">OCT-MAR</option>
+                                <option value="MAY-APR">NOV-FEB</option>
+                                <option value="JUN-MAY">DEC-JAN</option>
                               </select>
                            </div>
                            <div class="form-group">
                               <label for = "staff">YEAR</label>
                               <select name = "year" class="form-control">
+                                <option value = "">select year</option>
                                 <option value = "2019">2019</option>
                                 <option value = "2020">2020</option>
-                                <option value = "2020">2021</option>
-                                <option value = "2020">2022</option>
-                                <option value = "2020">2023</option>
-                                <option value = "2020">2024</option>
+                                <option value = "2021">2021</option>
+                                <option value = "2022">2022</option>
+                                <option value = "2023">2023</option>
+                                <option value = "2024">2024</option>
+                                <option value = "2025">2025</option>
+                                <option value = "2026">2026</option>
+                                <option value = "2027">2027</option>
+                                <option value = "2028">2028</option>
+                                <option value = "2029">2029</option>
                               </select>
                            </div>
                            <div class="form-group">
                              <input type="file" name="file" style="display: none;" id = "fileexcel"/>
-                             <img id = "uploadfile" src="images/uploadicon.png" alt="" style="width: 50px;height: 50px;"><span style="margin-right: 10px;"> Upload doc in Excel</span>
+                             <img id = "uploadfile" src="images/uploadicon.png" alt="" style="width: 50px;height: 50px;"><span id = 'addedfile' style="margin-right: 10px;"> Upload doc in Excel</span>
                              <!--button type="button" id = 'upload' class="btn btn-danger"><span><i class="fa fa-upload" aria-hidden="true"></i></span> Upload Appraisal in Excel (csv)</button-->
                          </div>
                            <div class="form-group" style="text-align: center;">
@@ -245,6 +258,10 @@
   <script type="text/javascript">
       $('#uploadfile').on('click', function(){
         $('#fileexcel').trigger('click');
+     });
+      $('#fileexcel').on('change', function(){
+       $("#addedfile").text('1 file added');
+       $("#uploadfile").attr("src","images/doc.png");
      });
   </script>
 </body>

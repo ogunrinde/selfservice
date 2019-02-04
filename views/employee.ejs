@@ -108,8 +108,13 @@
         <!-- End of Topbar -->
 
         <div class="container-fluid">
-          <!-- Area Chart -->
-          <div class="card border-0 shadow mb-4" style="padding: 1%;">
+          <div>
+             <% if (all_staff.length === 0) { %>
+                <div class="alert alert-light text-primary">You are not managing any staff yet.</div>
+             <% } %>
+          </div>
+           <% if (all_staff.length > 0) { %>
+          <div class="card border-0 shadow mb-4 bg-light" style="padding: 1%;">
             <div style="margin-top: 20px;">
               <div class="row">
                 <% for (let i = 0; i < all_staff.length; i++) { %>
@@ -148,6 +153,7 @@
             
                 </div>
                  <% } %>
+                <% } %>
               </div>
             </div>
           </div>
