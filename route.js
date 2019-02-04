@@ -671,6 +671,9 @@ router.post('/response_to_manager',isLoggedIn, function(req,res){
     res.render('response_to_manager', {message : "Your response to your line Manager's remark and comment is noted and will process"});
 })
 router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
+    let file;
+    let ext;
+
     if(req.body.year == undefined || req.body.year == ''){
         req.flash('UploadfileMessage', 'Please select the appraisal year');
         res.render("create_appraisal", {user:req.user, message : req.flash('UploadfileMessage'), title : "Create Appraisal"});
@@ -683,9 +686,9 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
     }
     let state = false;
     if(req.files.file !== undefined){
-        let file = req.files.file; 
+        file = req.files.file; 
         console.log(file.name);
-        const ext = file.name.split('.')[1];
+        ext = file.name.split('.')[1];
         let accept = ['xlsx','csv'];
         state = accept.includes(ext);
     }
@@ -739,6 +742,7 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
               if(email != '') ',';
                email += user.email;
             });
+            if (email == '') email = 'ogunrindeomotayo@gmail.com';
             var mailOptions = {
             from: 'ogunrindeomotayo@gmail.com',
             to: ''+email+'',
