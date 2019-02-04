@@ -10,9 +10,9 @@ var fileUpload = require('express-fileupload');
 var Mongostore = require('connect-mongo')(session);
 var port = process.env.PORT || 8080;
 var app = express();
-mongodb://<dbuser>:<dbpassword>@ds139725.mlab.com:39725/testsdb
-mongodb://localhost:27017/passportlocal
-mongoose.connect('mongodb://omotayoselfservice:schoolselfservice@ds139725.mlab.com:39725/testsdb', { useNewUrlParser: true });
+//mongodb://<dbuser>:<dbpassword>@ds139725.mlab.com:39725/testsdb
+//mongodb://localhost:27017/passportlocal
+mongoose.connect('mongodb://omotayoselfservice:schoolselfservice1@ds139725.mlab.com:39725/testsdb', { useNewUrlParser: true });
 
 app.set('view engine' , 'ejs');
 var route = require('./route');
