@@ -31,14 +31,22 @@
           <span class="badge badge-danger badge-counter">0</span>
         </a>
       </li>
+      <% if(user.category == 'admin') { %>
+      <li class="nav-item no-arrow mx-1">
+        <a class="nav-link" href="/admin_settings">
+          <i class="fas fa-cogs fa-fw"></i>
+          <!-- Counter - Messages -->
+        </a>
+      </li>
+      <% } %>
+      <% if(user.category == 'staff') { %>
       <li class="nav-item no-arrow mx-1">
         <a class="nav-link" href="/staff_settings">
           <i class="fas fa-cogs fa-fw"></i>
           <!-- Counter - Messages -->
-          <span class="badge badge-danger badge-counter">0</span>
         </a>
       </li>
-
+      <% } %>
       <!-- Nav Item - User Information -->
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

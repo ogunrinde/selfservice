@@ -47,7 +47,7 @@ router.post("/leave_request", isLoggedIn, function(req,res){
 });
 router.get("/notify", isLoggedIn, function(req,res){
    msg = ""+req.user.name+" of "+req.user.company_name+" has requested for leave, kindly click the below link to reply";
-   btn = "<a href = 'http:localhost:3000/view_leave_request/"+btoa(req.user._id)+"' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Click to see request</a>";
+   btn = "<a href = 'http://https://selfserviceapp.herokuapp.com/view_leave_request/"+btoa(req.user._id)+"' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Click to see request</a>";
    let head = "<head><meta charset='utf-8'>"
             +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
             +"<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS' crossorigin='anonymous'>"
@@ -615,10 +615,10 @@ router.post('/process_manager_remark', function(req,res){
       let email = manager == 'bManager' ? staff_email : manager_email;
       if(manager == 'lManager'){
         msg = "Dear Manager,<br> A staff in your company has completed an appraisal, kindly click the button below for remark.<br> Thank you.";
-        btn = "<a href = 'http:localhost:3000' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>View Appraisal</a>";
+        btn = "<a href = 'https://selfserviceapp.herokuapp.com' style = 'padding: 7px;color:#fff;background-color:#4e73df;cursor:pointer'>View Appraisal</a>";
     }else {
             msg = "Dear Staff,<br> Log In to self service to see your managers appraisals of you, kindly click the button below to Log In.<br> Thank you.";
-            btn = "<a href = 'http:localhost:3000' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Log In</a>";
+            btn = "<a href = 'https://selfserviceapp.herokuapp.com' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Log In</a>";
       }
         let head = "<head><meta charset='utf-8'>"
                   +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
@@ -689,7 +689,7 @@ router.post('/responsetoManager',isLoggedIn, function(req,res){
 router.post('/response_to_manager',isLoggedIn, function(req,res){
     res.render('response_to_manager', {message : "Your response to your line Manager's remark and comment is noted and will process"});
 })
-router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
+router.post("/uploadFile", isLoggedIn, function(req,res){
     let file;
     let ext;
 
@@ -733,7 +733,7 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
       template.save(function(err){
       if(err) throw err;
         msg = "Your admin has uploaded an appraisal for the year, kindly log In to your account to complete the information";
-        btn = "<a href = 'http:localhost:3000' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Log In</a>";
+        btn = "<a href = 'https://selfserviceapp.herokuapp.com' style = 'padding: 7px;color:#fff;background-color:#4e73df;cursor:pointer;'>Log In</a>";
         let head = "<head><meta charset='utf-8'>"
                   +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
                   +"<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS' crossorigin='anonymous'>"
@@ -755,6 +755,10 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
             auth: {
               user: 'ogunrindeomotayo@gmail.com',
               pass: 'christianlife'
+            },
+            tls: {
+                // do not fail on invalid certs
+                rejectUnauthorized: false
             }
           });
           let email= '';
@@ -776,7 +780,7 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
               console.log(error);
             } else {
               console.log('Email sent: ' + info.response);
-              req.flash('UploadfileMessage','File Uploaded Successfully, Staff will be notified by mail');
+              req.flash('UploadfileMessage','File Uploaded Successfully, Staffs will be notified by mail');
               res.redirect('/create_appraisal');
               //res.send(info.response);
             }
@@ -909,7 +913,7 @@ router.post('/process_data', function(req,res){
   let e = "5c54785cdbc7c633e890cc80;5c55da0962aab53c8853e0e1;lManager;james@gmail.com";
   let convert = btoa(param);
   msg = "Dear Manager,<br> A staff in your company has completed an appraisal, kindly click the button below for remark.<br> Thank you.";
-  btn = "<a href = 'http:localhost:3000/manager_view/"+convert+" style = 'padding: 7px;color:#fff;background-color:#4e73df;'>View Appraisal</a>";
+  btn = "<a href = 'https://selfserviceapp.herokuapp.com/manager_view/"+convert+" style = 'padding: 7px;color:#fff;background-color:#4e73df;'>View Appraisal</a>";
   let head = "<head><meta charset='utf-8'>"
   +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
   +"<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS' crossorigin='anonymous'>"
