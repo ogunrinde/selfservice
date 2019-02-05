@@ -129,6 +129,10 @@ $(function(){
     //alert(val);
     $("#addyear").val(val);
     $('#user_id').val();
+    let app = $("#"+this.id+"").attr('appraisal_id');
+    let staff_id = $("#"+this.id+"").attr('staff_id');
+    $('#appraisal_id').val(app);
+    $('#staff_id').val(staff_id);
     $("#submityear").trigger('click');
 });
 $('.getleave').on('click', function(e){

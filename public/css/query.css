@@ -18,8 +18,8 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    padding: 1%;background-color: #fff;
 }
-
 .card .card-heading {
     padding: 0 20px;
     margin: 0;
@@ -195,13 +195,14 @@
     padding-top: 0;
     overflow: hidden;
     text-align: center;
+    width: 70%;
     background-color: rgba(214, 224, 226, 0.2);
 }
 
 .card.hovercard .cardheader {
     /*background: url("http://lorempixel.com/850/280/nature/4/");
     background-size: cover;*/
-    height: 110px;
+    height: 90px;
 }
 
 .card.hovercard .avatar {
@@ -211,14 +212,14 @@
 }
 
 .card.hovercard .avatar img {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
+    width: 70px;
+    height: 70px;
+    max-width: 70px;
+    max-height: 70px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    border: 2px solid #ccd5f0;
+    /*border: 2px solid #ccd5f0;*/
 }
 
 .card.hovercard .info {
@@ -247,3 +248,21 @@
 }
 
 .btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  }
+
+@media only screen and (max-width:768px){
+    .card {
+        padding: 4px;
+        margin: 5px 5px;
+    }
+    .card.hovercard {
+        width: 100%;
+    }
+    .card.hovercard .bottom {
+        padding: 0 20px;
+        margin-bottom: 0px;
+    }
+    .container-fluid{
+        padding-right: 1px;
+        padding-left: 1px;
+    }
+}

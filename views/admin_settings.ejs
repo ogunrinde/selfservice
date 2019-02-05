@@ -60,8 +60,8 @@
                    <div class="row">
                        <div class="col-lg-4">
                            <% if (company_data.company_name === null)  {%>
-                           <div style="text-align: center;" id = "uploadimg_company"><img class="uploadimg" src="/images/upload.png" alt=""></div>
-                           <div style="text-align: center;" class="company_image">Upload Company Logo</div>
+                           <div style="text-align: center;" id = "uploadimg_company"><img class="uploadimg" src="/images/logo.jpg" alt=""></div>
+                           <div style="text-align: center;display: none;" class="company_image">Upload Company Logo</div>
                            <input type="file" name="company_file" id="file_company" style="display: none;">
                            <% } else { %>
                             <div style="text-align: center;" id = "uploadimg"><img class="uploadimg" src="/images/<%=company_data.logo%>" alt=""></div>
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                         <label for="company name">Department</label>
-                                        <input type="text" class="form-control" id="company_dept" name = "company_dept" placeholder="e.g Fleet Management Unit">
+                                        <input type="text" class="form-control" id="company_dept" name = "company_dept" placeholder="e.g Operational Unit">
                                         <small class="text-danger" id = "errpassword"></small>
                                 </div>
                                 <div class="form-group" style="display: none;">

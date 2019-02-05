@@ -47,7 +47,7 @@ router.post("/leave_request", isLoggedIn, function(req,res){
 });
 router.get("/notify", isLoggedIn, function(req,res){
    msg = ""+req.user.name+" of "+req.user.company_name+" has requested for leave, kindly click the below link to reply";
-   btn = "<a href = 'http:localhost:3000/view_applied_leave/"+btoa(req.user._id)+"' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Click to see request</a>";
+   btn = "<a href = 'http:localhost:3000/view_leave_request/"+btoa(req.user._id)+"' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Click to see request</a>";
    let head = "<head><meta charset='utf-8'>"
             +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
             +"<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS' crossorigin='anonymous'>"
@@ -101,12 +101,12 @@ router.post("/update_leave_request",isLoggedIn, function(req,res){
     if(req.user.category == 'lManager'){
         Leave.findOneAndUpdate({staff_id: req.body.staff_id}, {$set:{lManager_remark:req.body.category}}, {new: true}, (err, doc) => {
             req.flash('message', 'Information received');
-            res.render("notify_manager", {user: req.user, message : req.flash('message')});
+            res.render("notify_manager", {user: req.user, message : req.flash('message'),title : 'Notify Manager'});
          });
     }else {
         Leave.findOneAndUpdate({staff_id: req.body.staff_id}, {$set:{bManager_remark:req.body.category}}, {new: true}, (err, doc) => {
             req.flash('message', 'Information received');
-            res.render("notify_manager", {user: req.user, message : req.flash('message')});
+            res.render("notify_manager", {user: req.user, message : req.flash('message'), title : 'Notify Manager'});
          }); 
     }
     
@@ -132,14 +132,15 @@ router.get("/appraisal", isLoggedIn, function(req,res){
     });
 });
 router.get("/drop_appraisal/:id", function(req,res){
-  //req.session.app_id = atob(req.params.id);
-  Template.findByIdAndRemove({admin_id: req.user._id}, function(err, template){
-    req.flash('appraisal_remove', 'One document removed');
-   res.redirect('/drop');
-  });
+  req.session.app_id = atob(req.params.id);
+  Template.findByIdAndRemove({_id: req.session.app_id}, function(err, template){
+        if(err) throw err;
+       console.log(template);
+       req.flash('appraisal_remove', 'One document Dropped');
+       res.redirect('/drop');
+    });
 });
 router.get("/suspend_appraisal/:id", function(req,res){
-  //req.session.app_id = atob(req.params.id);
   Template.findByIdAndUpdate({admin_id: req.user._id}, function(err, template){
     req.flash('appraisal_suspend', 'One document Suspended');
    res.redirect('/suspend');
@@ -152,9 +153,8 @@ router.get("/suspend", isLoggedIn, function(req,res){
     });
 });
 router.get("/drop", isLoggedIn, function(req,res){
-    Template.find({admin_id: req.user._id}, function(err, template){
-       console.log(template);
-       res.render("drop", {template_data : template, user: req.user, appraisal_remove : req.flash('appraisal_remove'), title  : 'Drop Appraisal'});
+    Template.find({admin_id : req.user._id}, function(err, temp){ 
+        res.render("drop", {template_data : temp, user: req.user, appraisal_remove : req.flash('appraisal_remove'), title  : 'Drop Appraisal'});
     });
 });
 router.get("/query", function(req,res){
@@ -209,12 +209,29 @@ router.get("/each_staff_appraisals", isLoggedIn, function(req,res){
         //console.log(staff_id);
         User.findOne({_id : staff_id}, function(err,user_details){
           console.log(user_details);
-          res.render('each_staff_appraisals', {staff : user_details,  user:req.user, template_data : staff_template, b_seen :b_seen, l_seen :l_seen});
+          res.render('each_staff_appraisals', {staff : user_details,  user:req.user, template_data : staff_template, b_seen :b_seen, l_seen :l_seen, title : 'Staff Appraisal'});
         });
         //console.log(staff_template);
         //console.log(staff_template[0].length);
         //res.send('oka');
     });
+});
+router.post('/dropApraisal', function(req,res){
+     Template.findByIdAndRemove(req.body.id, function(err, deleted) { // doc here is actually err
+         if(err) throw err;
+         res.json({success : true});
+      });
+});
+router.post('/suspendApraisal', function(req,res){
+     Template.find({_id : req.body.id}, function(err, template){
+        if(err) throw err;
+        template.suspend = 'true';
+         Template.findByIdAndUpdate(req.body.id, template, {new :true}, function(err, suspended) { // doc here is actually err
+           if(err) throw err;
+           res.json({success : true});
+      });
+     })
+    
 });
 router.get("/get_staff_appraisals/:id", function(req,res){
     let id = req.params.id;
@@ -781,7 +798,7 @@ router.get('/staff_appraisal', isLoggedIn, function(req,res){
             else if(q < app.replies.length) appraisal.push(app);
             else if(q == app.replies.length) msg = 'The administrator is yet to upload new appraisal';
         });
-        res.render("staff_appraisal", { user: req.user, appraisal : appraisal, msg : msg});
+        res.render("staff_appraisal", { user: req.user, appraisal : appraisal, msg : msg, title : 'Staff Appraisal'});
     }); 
 });
 router.get("/create_appraisal", isLoggedIn, function(req,res){
@@ -873,13 +890,13 @@ router.get('/val', function(req,res){
   console.log(j);
 });
 router.get('/femi', function(req,res){
-
+     let r = "http://localhost:8080/view_applied_leave/"+btoa(req.user._id)+"";
     let e = "5c573909e3d4dc4754ff9e6e;5c5744aa3df7ce43c0f9e5e1;lManager;james@gmail.com;temmytp22005@gmail.com";
     let convert = btoa(e);
 
     //let f = atob('NWM1NDc4NWNkYmM3YzYzM2U4OTBjYzgwOzVjNTVkYTA5NjJhYWI1M2M4ODUzZTBlMTtsTWFuYWdlcjtqYW1lc0BnbWFpbC5jb20=');
     console.log(atob(convert));
-    res.send(convert);
+    res.send(r);
 })
 router.post('/process_data', function(req,res){
   console.log(req.body);
@@ -939,12 +956,12 @@ router.post('/process_data', function(req,res){
  });
 });
 router.get('/responsemsg',function(req,res){
-   res.render('responsemsg', {user : req.user});
+   res.render('responsemsg', {user : req.user, title : 'Response Message'});
 });
 router.post('/view_filled_appraisal',function(req,res){
-    console.log(req.body.year);
-    let set_id =  req.body.user_id !== undefined ? req.body.user_id : req.user._id;
-    Template.findOne({year : req.body.year}, function(err, template){
+    console.log(req.body.appraisal_id);
+    let set_id =  req.body.appraisal_id;
+    Template.findOne({_id : req.body.appraisal_id}, function(err, template){
         console.log(req.user.category);
         if(req.user.category == 'staff' || req.user.category == 'admin'){
             let justifications = [];
@@ -956,7 +973,7 @@ router.post('/view_filled_appraisal',function(req,res){
             let pos= 0;
             for (let r = 0; r < template.replies.length; r++){
                 console.log(template.replies[r].staff_id);
-                if(template.replies[r].staff_id.toString()  == set_id.toString()) {
+                if(template.replies[r].staff_id.toString()  == req.body.staff_id.toString()) {
                     console.log(template.replies[r].justifications);
                     pos = r;
                     justifications = template.replies[r].justifications.split(";");
@@ -972,10 +989,10 @@ router.post('/view_filled_appraisal',function(req,res){
                 }
             }
             console.log(justifications,remarks);
-            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks });
+            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, justifications:justifications,remarks:remarks, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks, title : 'View Appraisal' });
         }else{
             //console.log('qqqqqqqqqqqqqqqqq');
-            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks});
+            res.render("view_filled_appraisal", {position : pos, appraisal : template.appraisal, appraisal_year : template.year,appraisal_id: template._id, user : req.user, lManager_justification:lManager_justification,lManager_remarks:lManager_remarks,bManager_justification:bManager_justification,bManager_remarks:bManager_remarks, title : 'View Appraisal'});
         }
     });
     //res.render('view_filled_appraisal');
@@ -1017,15 +1034,15 @@ router.get('/each_leave_request', isLoggedIn,function(req,res){
     });
   });
   router.get('/view_leave_request/:id', isLoggedIn,function(req,res){
-    req.session.leave_request_id = req.params.id;
+    req.session.leave_request_id = atob(req.params.id);
     res.redirect('/view_applied_leave'); 
   });
   router.get('/view_applied_leave',function(req,res){
-    let id = "5c54785cdbc7c633e890cc80";//req.flash('value')[0];
-    let id = atob(req.session.leave_request_id);
+    //let id = "5c54785cdbc7c633e890cc80";//req.flash('value')[0];
+    let id = req.session.leave_request_id;
     Leave.findOne({staff_id : id}, function(req,leave){
             User.findOne({_id: leave.staff_id}, function(err, user){
-              res.render('view_applied_leave', {leave_data : leave, user : user });
+              res.render('view_applied_leave', {leave_data : leave, user : user, title : 'View Applied Leave' });
             });
         }); 
   });
@@ -1033,14 +1050,16 @@ router.get('/filled_appraisal',function(req,res){
     let staff_template = [];
     let b_seen = false;
     let l_seen =false;
+    let staff_id = '';
+    console.log(req.user._id);
     Template.find({}, function(err, temp){
         //console.log(value.replies.staff_id);
         temp.forEach(function(value){
             //console.log(value);
             value.replies.forEach(function(staff){
-                //console.log(staff.staff_id);
                 if(staff.staff_id.toString() === req.user._id.toString()){
-                    staff_template.push(temp);
+                    staff_template.push(value);
+                    staff_id = staff.staff_id.toString();
                     b_seen = staff.bManager_remarks !== '' ? true : false;
                     l_seen = staff.lManager_remarks !== '' ? true : false;
                 }
@@ -1048,10 +1067,11 @@ router.get('/filled_appraisal',function(req,res){
                 //console.log(req.user._id);
             })
         });
-        if(staff_template[0] == undefined)
-          res.render('filled_appraisal', {user:req.user, appraisal : [], b_seen :b_seen,l_seen:l_seen});
+         console.log(staff_template);
+        if(staff_template == undefined)
+          res.render('filled_appraisal', {user:req.user, appraisal : [], b_seen :b_seen,l_seen:l_seen, staff_id:staff_id, title : 'Filled Apraisal'});
         else
-         res.render('filled_appraisal', {user:req.user, appraisal : staff_template[0], b_seen :b_seen,l_seen:l_seen});
+         res.render('filled_appraisal', {user:req.user, appraisal : staff_template, b_seen :b_seen,l_seen:l_seen, staff_id:staff_id, title : 'Filled Appraisal'});
     });
  });
 module.exports = router;

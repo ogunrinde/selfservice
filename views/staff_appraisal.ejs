@@ -43,12 +43,12 @@
 
         <div class="container-fluid">
             <% if (appraisal.length === 0 && msg === undefined) { %>
-            <div class="alert alert-light" role="alert">
+            <div class="alert alert-light text-primary" role="alert">
                 No Appraisal Uploaded yet...
             </div>
             <% } %>
             <% if (appraisal.length === 0 && msg !== undefined) { %>
-            <div class="alert alert-light" role="alert">
+            <div class="alert alert-light text-primary" role="alert">
                <%=msg%>
             </div>
             <% } %>

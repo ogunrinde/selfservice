@@ -129,7 +129,7 @@
           <div class="listwrapper">
           <ul class="list-group">
               <% for(var i=0; i < template_data.length; i++) { %>
-              <a class="getdata" id = "getdata<%=i%>" year = "<%= template_data[i].year %>">  
+              <a class="getdata" id = "getdata<%=i%>" year = "<%= template_data[i].year %>" staff_id = "<%=staff._id%>" appraisal_id = "<%=template_data[i]._id%>">  
               <li class="list-group-item d-flex justify-content-between align-items-center">
                   
                   <span> <i class="fa fa-file" style="margin-right: 7px;"></i><%= template_data[i].period %> (<%= template_data[i].year %>)</span>
@@ -144,7 +144,9 @@
           </div>
           <form method="post" action="/view_filled_appraisal" style="display: none" >
              <input type="text" name = 'year' id = 'addyear'/>
-             <input type="text" name = 'user_id' value ='<%=template_data[0].replies[0].staff_id%>'/>
+             <!--input type="text" name = 'user_id' value ='<%=template_data[0].replies[0].staff_id%>'/-->
+             <input type="text" name = 'appraisal_id' id = 'appraisal_id'/>
+             <input type="text" name = 'staff_id' id = 'staff_id'/>
              <input type="submit" value="submit" id = 'submityear'>
           </form> 
           <!--div class="contain">

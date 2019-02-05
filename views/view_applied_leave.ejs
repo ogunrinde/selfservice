@@ -125,27 +125,27 @@
           <div class="alert alert-light" role="alert">
                 <div class="row">
                     <div class="col-lg-2 text-center">
-                        <h6>Employee ID</h6>
+                        <h6 class="text-primary" style="font-weight: 500">Employee ID</h6>
                         <p><%=user.employee_ID%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6>Company</h6>
+                            <h6 class="text-primary" style="font-weight: 500">Company</h6>
                             <p><%=user.company_name%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6>Leave Applicant</h6>
+                            <h6 class="text-primary" style="font-weight: 500">Leave Applicant</h6>
                             <p><%=user.name%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6>Branch</h6>
+                            <h6 class="text-primary" style="font-weight: 500">Branch</h6>
                             <p>Ecobank</p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6>Role</h6>
+                            <h6 class="text-primary" style="font-weight: 500">Role</h6>
                             <p><%=user.role%></p>
                     </div>
                     <div class="col-lg-2 text-center">
-                            <h6>E-mail</h6>
+                            <h6 class="text-primary" style="font-weight: 500">E-mail</h6>
                             <p><%=user.email%></p>
                     </div>
                 </div>
@@ -157,49 +157,41 @@
             </div>
             <div class="card-body">
               <div>
-              <div class="row">
-                <div class="col-lg-2">
-                    <p class="text-center" style="font-weight: 800">Leave Type</p>
-                    <p class="text-center"><%=leave_data.leave_type%></p>
-                </div>
-                <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">Start Date</p>
-                        <p class="text-center"><%=leave_data.start_date%></p>
-                </div>
-                <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">End Date</p>
-                        <p class="text-center"><%=leave_data.end_date%></p>
-                </div>
-                <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">Applied Date</p>
-                        <p class="text-center"><%=leave_data.date_created%></p>
-                </div>
-                <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">Reliever Required</p>
-                        <p class="text-center"><%=leave_data.require_reliever%></p>
-                </div>
-                <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">Reliever source</p>
-                        <p class="text-center"><%=leave_data.reliever_source%></p>
-                </div>
-              </div> 
-              <div class="row" style="margin-top: 20px;">
-                    <div class="col-lg-2">
-                        <p class="text-center" style="font-weight: 800">Justification</p>
-                        <p class="text-center"><%=leave_data.justification%></p>
-                    </div>
-                    <div class="col-lg-2">
-                            <p class="text-center" style="font-weight: 800"> Reliever E-mail</p>
-                            <p class="text-center"><%=leave_data.reliever_email%></p>
-                    </div>
-                    <div class="col-lg-2">
-                            <p class="text-center" style="font-weight: 800">Reliever Phone</p>
-                            <p class="text-center"><%=leave_data.reliever_phone%></p>
-                    </div>
-                    <div class="col-lg-2">
-                            <p class="text-center" style="font-weight: 800">Reliever </p>
-                            <p class="text-center"><%=leave_data.require_reliever%></p>
-                    </div>
+              <div class="listitem">
+                <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Leave Type
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.leave_type%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Start Date
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.start_date%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    End Date
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.end_date%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Applied Date
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.date_created%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Reliever Required
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.require_reliever%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Reliever Source
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.reliever_source%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Reliever's Email
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.reliever_email%></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Reliever's Phone
+                    <span class="badge badge-pill" style="font-weight: 500;font-size: 14px;"><%=leave_data.reliever_phone%></span>
+                  </li>
+                </ul>
               </div>   
               <div style="margin-top: 30px;">Manager's Remark</div><hr>
               <div class="row" style="width: 60%;margin-left:auto;margin-right: auto;">
