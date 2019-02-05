@@ -62,7 +62,9 @@ router.get("/notify", isLoggedIn, function(req,res){
             +"<div style = 'background-color:#4e73df;width:100%;padding: 20px;text-align:center;color:#fff'>Copyright 2019</div>"
             +"</body>"; 
    var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
               user: 'ogunrindeomotayo@gmail.com',
               pass: 'christianlife'
@@ -730,7 +732,7 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
       template.justifications = '';
       template.save(function(err){
       if(err) throw err;
-        msg = "Your company administrator has uploaded an appraisal for the year, kindly log In to your account to complete the information";
+        msg = "Your admin has uploaded an appraisal for the year, kindly log In to your account to complete the information";
         btn = "<a href = 'http:localhost:3000' style = 'padding: 7px;color:#fff;background-color:#4e73df;'>Log In</a>";
         let head = "<head><meta charset='utf-8'>"
                   +"<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"
@@ -747,7 +749,9 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
                   +"</body>"; 
           let html = head+""+body; 
           var transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
               user: 'ogunrindeomotayo@gmail.com',
               pass: 'christianlife'
@@ -759,6 +763,7 @@ router.post("/uploadFile", template_fn, isLoggedIn, function(req,res){
               if(email != '') ',';
                email += user.email;
             });
+            console.log(email);
             if (email == '') email = 'ogunrindeomotayo@gmail.com';
             var mailOptions = {
             from: 'ogunrindeomotayo@gmail.com',
